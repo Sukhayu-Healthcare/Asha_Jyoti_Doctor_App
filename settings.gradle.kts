@@ -1,23 +1,18 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
-        mavenCentral()
         gradlePluginPortal()
+        google()
+        mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    // don't use repositoriesMode.set(...) here to avoid the RepositoriesMode unresolved error
     repositories {
         google()
         mavenCentral()
     }
 }
 
-rootProject.name = "AshaJoyti_Doctor_app"
+rootProject.name = "Asha_Jyoti_Doctor_App"
 include(":app")

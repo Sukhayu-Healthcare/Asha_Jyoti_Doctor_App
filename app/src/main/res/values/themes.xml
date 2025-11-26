@@ -1,9 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AshaJoyti_Doctor_app" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <!-- App theme that inherits from MaterialComponents. Use it as application's theme. -->
+    <style name="Theme.AshaDoctor" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary branding colors (change as you like) -->
+        <item name="colorPrimary">#0B4470</item>
+        <item name="colorPrimaryVariant">#072440</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
 
-    <style name="Theme.AshaJoyti_Doctor_app" parent="Base.Theme.AshaJoyti_Doctor_app" />
+        <item name="colorSecondary">#6D376D</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Default surface/background/text colors -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+
+        <!-- Use MaterialComponents widgets by default -->
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+    </style>
 </resources>
