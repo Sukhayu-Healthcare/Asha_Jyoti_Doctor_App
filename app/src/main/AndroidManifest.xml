@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-      NOTE: Namespace is set in build.gradle.kts (android.namespace).
-      Do NOT set `package="..."` here when using the Gradle 'namespace' property.
-    -->
-
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/asha_jyoti_app_logo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AshaDoctor">
+        android:theme="@style/Theme.ASHA_JYOTI_DOCTOR_APP">
 
-        <!-- Launcher (Main) Activity: must explicitly set android:exported because it has an intent-filter -->
+        <!-- Launcher Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -24,39 +19,28 @@
             </intent-filter>
         </activity>
 
-        <!-- RoleSelectionActivity (no intent-filter) -->
+        <!-- Other activities -->
         <activity
-            android:name=".doctorapp.RoleSelectionActivity"
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.RoleSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.CHOLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.CHODashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.MedicalOfficerActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.CivilHospitalDoctorActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.EmergencyDoctorActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.ChiefHealthOfficerActivity"
             android:exported="false" />
 
-        <!-- CHO Login / Dashboard / other activities:
-             - If they have intent-filters -> set exported explicitly true/false.
-             - If not, it's safe to set exported="false" (recommended unless other apps must start them).
-        -->
-        <activity
-            android:name=".doctorapp.CHOLoginActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".doctorapp.CHODashboardActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".doctorapp.MedicalOfficerActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".doctorapp.CivilHospitalDoctorActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".doctorapp.EmergencyDoctorActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".doctorapp.ChiefHealthOfficerActivity"
-            android:exported="false" />
-
-        <!-- Add other activities here similarly -->
     </application>
 </manifest>
