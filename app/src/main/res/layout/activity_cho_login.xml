@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/bg_gradient"
     android:padding="18dp">
 
-    <!-- Make this container fill the screen and center its contents -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,15 +14,14 @@
         android:paddingTop="18dp"
         android:paddingBottom="24dp">
 
-        <!-- Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp"
-            app:useCompatPadding="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            app:useCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,7 +36,7 @@
                     android:src="@drawable/asha_jyoti_logo"
                     android:contentDescription="logo"
                     android:layout_marginTop="6dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -56,9 +53,9 @@
                     android:textSize="13sp"
                     android:textColor="#666666"
                     android:layout_marginTop="6dp"
-                    android:layout_marginBottom="12dp"/>
+                    android:layout_marginBottom="12dp" />
 
-                <!-- CHO ID label and editable field (placeholder CHO001) -->
+                <!-- CHO ID label and field (ID used by activity: edtUsername) -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,17 +65,15 @@
                     android:layout_marginTop="8dp" />
 
                 <EditText
-                    android:id="@+id/et_cho_id"
+                    android:id="@+id/edtUsername"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:background="@drawable/field_bg"
-                    android:gravity="center_vertical|start"
                     android:hint="CHO001"
                     android:inputType="text"
                     android:layout_marginTop="8dp"
-                    android:padding="12dp"/>
+                    android:padding="12dp" />
 
-                <!-- OTP label and editable field (treated as password) -->
+                <!-- OTP label and field (ID used by activity: edtPassword) -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,15 +83,13 @@
                     android:layout_marginTop="12dp" />
 
                 <EditText
-                    android:id="@+id/et_otp"
+                    android:id="@+id/edtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:inputType="numberPassword"
-                    android:background="@drawable/field_bg"
-                    android:gravity="center_vertical|center_horizontal"
                     android:hint="123456"
                     android:layout_marginTop="8dp"
-                    android:padding="12dp"/>
+                    android:padding="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,23 +97,20 @@
                     android:text="Demo OTP: 123456"
                     android:textSize="12sp"
                     android:textColor="#888888"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp" />
 
-                <!-- Login button -->
+                <!-- Login button (ID used by activity: btnLogin) -->
                 <Button
-                    android:id="@+id/btn_login_cho"
+                    android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:text="Login"
                     android:textAllCaps="false"
-                    android:layout_marginTop="14dp"
-                    android:backgroundTint="#0B0B12"
-                    android:textColor="#FFFFFF"/>
+                    android:layout_marginTop="14dp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- bottom helper text -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,7 +118,6 @@
             android:textAlignment="center"
             android:textSize="12sp"
             android:textColor="#7a7a7a"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp" />
     </LinearLayout>
-
 </ScrollView>

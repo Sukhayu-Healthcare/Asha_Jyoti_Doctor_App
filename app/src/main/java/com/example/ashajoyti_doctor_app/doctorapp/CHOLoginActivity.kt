@@ -1,4 +1,4 @@
-package com.example.ashajoyti_doctor_app.doctor_app
+package com.example.ashajoyti_doctor_app.doctorapp
 
 import android.content.Intent
 import android.os.Bundle

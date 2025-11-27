@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Keep only auxiliary styles here. DO NOT define Theme.AshaDoctor here. -->
-    <style name="CircleImage" parent="">
-        <!-- placeholder for shape overlay -->
-    </style>
-</resources>

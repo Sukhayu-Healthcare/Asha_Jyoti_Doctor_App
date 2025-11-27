@@ -7,15 +7,11 @@
         <item name="colorPrimaryVariant">#072440</item>
         <item name="colorOnPrimary">#FFFFFF</item>
 
-        <item name="colorSecondary">#6D376D</item>
-        <item name="colorOnSecondary">#FFFFFF</item>
-
-        <!-- Default surface/background/text colors -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:windowBackground">#FFFFFF</item>
+        <!-- Optional: surface / onSurface / error colors -->
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#172B4D</item>
 
         <!-- Use MaterialComponents widgets by default -->
-        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
         <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
     </style>
 </resources>

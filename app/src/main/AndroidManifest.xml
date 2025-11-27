@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-   <application
-    android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:supportsRtl="true"
-    android:theme="@style/Theme.AshaDoctor">
-    
+    <!--
+      NOTE: Namespace is set in build.gradle.kts (android.namespace).
+      Do NOT set `package="..."` here when using the Gradle 'namespace' property.
+    -->
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AshaDoctor">
+
+        <!-- Launcher (Main) Activity: must explicitly set android:exported because it has an intent-filter -->
         <activity
-            android:name=".RoleSelectionActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,14 +24,39 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ChiefHealthOfficerActivity" android:exported="false" />
-        <activity android:name=".MedicalOfficerActivity" android:exported="false" />
-        <activity android:name=".CivilHospitalDoctorActivity" android:exported="false" />
-        <activity android:name=".EmergencyDoctorActivity" android:exported="false" />
+        <!-- RoleSelectionActivity (no intent-filter) -->
+        <activity
+            android:name=".doctorapp.RoleSelectionActivity"
+            android:exported="false" />
 
-        <activity android:name=".CHOLoginActivity" android:exported="false" />
-        <activity android:name=".CHODashboardActivity" android:exported="false" />
+        <!-- CHO Login / Dashboard / other activities:
+             - If they have intent-filters -> set exported explicitly true/false.
+             - If not, it's safe to set exported="false" (recommended unless other apps must start them).
+        -->
+        <activity
+            android:name=".doctorapp.CHOLoginActivity"
+            android:exported="false" />
 
+        <activity
+            android:name=".doctorapp.CHODashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".doctorapp.MedicalOfficerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".doctorapp.CivilHospitalDoctorActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".doctorapp.EmergencyDoctorActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".doctorapp.ChiefHealthOfficerActivity"
+            android:exported="false" />
+
+        <!-- Add other activities here similarly -->
     </application>
-
 </manifest>
