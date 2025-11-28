@@ -1,4 +1,4 @@
-package com.example.ashajoyti_doctor_app
+package com.example.ashajoyti_doctor_app.doctorapp
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,18 +6,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.ashajoyti_doctor_app.R
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Force app to always use light mode (ignores system dark mode)
+        // Force light mode for the whole app
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        // Apply the app theme. Use R.style with underscores (dots in style name become underscores).
-        // Your style in res/values/themes.xml is named "Theme.ASHA_JYOTI_DOCTOR_APP"
-        // so the generated id is R.style.Theme_ASHA_JYOTI_DOCTOR_APP
+        // Apply theme before super.onCreate (optional but keeps things consistent)
         try {
             setTheme(R.style.Theme_ASHA_JYOTI_DOCTOR_APP)
         } catch (t: Throwable) {
@@ -26,12 +25,10 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        // Try to start RoleSelectionActivity (multiple possible package names used historically)
+        // Try to start your RoleSelectionActivity (FQCN must match actual file)
         val candidates = listOf(
             "com.example.ashajoyti_doctor_app.doctorapp.RoleSelectionActivity",
-            "com.example.ashajoyti_doctor_app.RoleSelectionActivity",
-            "com.ashajyoti.doctorapp.RoleSelectionActivity",
-            "com.ashajyoti_doctor_app.doctorapp.RoleSelectionActivity"
+            "com.example.ashajoyti_doctor_app.RoleSelectionActivity"
         )
 
         var started = false
@@ -50,9 +47,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Fallback UI if role activity not found
         if (!started) {
-            Log.w(TAG, "RoleSelectionActivity not found. Loading activity_main as fallback.")
+            Log.w(TAG, "RoleSelectionActivity not found. Loading local fallback layout.")
             Toast.makeText(this, "Loading main screen", Toast.LENGTH_SHORT).show()
             setContentView(R.layout.activity_main)
         }

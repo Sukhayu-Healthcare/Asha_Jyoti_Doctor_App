@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Light-only MaterialComponents theme (app-wide). -->
-    <style name="Theme.ASHA_JYOTI_DOCTOR_APP" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Core colors (tweak if you want) -->
+    <style name="Theme_ASHA_JYOTI_DOCTOR_APP" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Core colors -->
         <item name="colorPrimary">#0B4470</item>
         <item name="colorPrimaryVariant">#072440</item>
         <item name="colorOnPrimary">#FFFFFF</item>
@@ -14,10 +14,10 @@
         <!-- Ensure widgets use MaterialComponents styles -->
         <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
 
-        <!-- Prevent Android 10+ Force Dark from flipping colors -->
+        <!-- Prevent Android 10+ Force Dark -->
         <item name="android:forceDarkAllowed">false</item>
 
-        <!-- Optionally force light system UI appearances (status/navigation) -->
+        <!-- System UI colors -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
     </style>

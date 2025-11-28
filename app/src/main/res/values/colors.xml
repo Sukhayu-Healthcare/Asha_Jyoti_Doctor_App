@@ -7,5 +7,8 @@
     <color name="blue_icon">#0B4470</color>
     <color name="orange_icon">#F57C00</color>
     <color name="green_icon">#2E7D32</color>
+    <color name="colorPrimary">#0B4470</color>
+    <color name="colorPrimaryVariant">#072440</color>
+    <color name="recent_icon_tint">#6B7280</color>
 </resources>
 
