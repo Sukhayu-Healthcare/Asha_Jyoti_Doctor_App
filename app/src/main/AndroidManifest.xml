@@ -29,6 +29,8 @@
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.EmergencyDoctorActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.ChiefHealthOfficerActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHOProfileActivity" android:exported="false" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.EditProfileActivity" />
+
 
     </application>
 </manifest>

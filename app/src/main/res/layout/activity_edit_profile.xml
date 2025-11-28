@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/editProfileScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F7F9FB"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/includeHeader"
+            layout="@layout/include_header" />
+
+        <!-- Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/editCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="6dp"
+            android:padding="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Avatar + camera -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <FrameLayout
+                        android:layout_width="110dp"
+                        android:layout_height="110dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivAvatarEdit"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:src="@drawable/ic_person_placeholder"
+                            android:contentDescription="avatar" />
+
+                        <ImageButton
+                            android:id="@+id/btnChangePhotoEdit"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="4dp"
+                            android:background="@drawable/camera_circle_bg"
+                            android:src="@drawable/ic_camera"
+                            android:tint="@android:color/white"
+                            android:contentDescription="Change photo" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Edit Profile"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#0B2B3A" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Change name, phone or photo"
+                            android:textSize="13sp"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#576778" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#E6EEF3" />
+
+                <!-- Editable Name -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Full Name"
+                    android:textStyle="bold"
+                    android:textColor="#475569"
+                    android:layout_marginBottom="6dp" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFullNameEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:color/white"
+                    android:padding="12dp"
+                    android:textSize="15sp" />
+
+                <!-- Editable Phone -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number"
+                    android:textStyle="bold"
+                    android:textColor="#475569"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="6dp" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhoneEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:inputType="phone"
+                    android:background="@android:color/white"
+                    android:padding="12dp"
+                    android:textSize="15sp" />
+
+                <!-- Read-only fields -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doctor ID"
+                    android:textStyle="bold"
+                    android:textColor="#475569"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:id="@+id/tvDoctorIdRO"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="#F3F7FA"
+                    android:padding="12dp"
+                    android:textColor="#0B2B3A"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Designation"
+                    android:textStyle="bold"
+                    android:textColor="#475569"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:id="@+id/tvDesignationRO"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="#F3F7FA"
+                    android:padding="12dp"
+                    android:textColor="#0B2B3A"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Role"
+                    android:textStyle="bold"
+                    android:textColor="#475569"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:id="@+id/tvRoleRO"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="#F3F7FA"
+                    android:padding="12dp"
+                    android:textColor="#0B2B3A"
+                    android:gravity="center_vertical" />
+
+                <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+                <!-- Buttons: Cancel | Save (same line) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelEdit"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="48dp"
+                        android:text="Cancel" />
+
+                    <Space android:layout_width="12dp" android:layout_height="wrap_content" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveEdit"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="48dp"
+                        android:text="Save" />
+                </LinearLayout>
+
+                <Space android:layout_width="match_parent" android:layout_height="12dp" />
+
+                <!-- Logout -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogoutEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Logout"
+                    android:backgroundTint="@color/design_default_color_error"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
