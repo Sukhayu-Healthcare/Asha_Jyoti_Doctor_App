@@ -69,11 +69,21 @@ class CHODashboardActivity : AppCompatActivity() {
         tvDesignation.text = roleText
         tvId.text = "CHO001"
 
-        // make profile card clickable to open profile (placeholder)
-        findViewById<MaterialCardView>(R.id.profileCard).setOnClickListener {
-            // For now just toast; later launch CHOProfileActivity
-            Toast.makeText(this, "Open CHO profile (todo)", Toast.LENGTH_SHORT).show()
-            // Example: startActivity(Intent(this, CHOProfileActivity::class.java))
+        // make profile card clickable to open profile
+        val profileCard = findViewById<MaterialCardView>(R.id.profileCard)
+        profileCard.setOnClickListener {
+            Log.i(TAG, "profileCard clicked — launching CHOProfileActivity")
+            startActivity(Intent(this, CHOProfileActivity::class.java))
+        }
+
+        // also wire the "Profile" text and header avatar to same action (safer UX)
+        findViewById<TextView>(R.id.tvProfile).setOnClickListener {
+            Log.i(TAG, "tvProfile clicked — launching CHOProfileActivity")
+            startActivity(Intent(this, CHOProfileActivity::class.java))
+        }
+        appLogoSmall.setOnClickListener {
+            Log.i(TAG, "header avatar clicked — launching CHOProfileActivity")
+            startActivity(Intent(this, CHOProfileActivity::class.java))
         }
 
         // card clicks

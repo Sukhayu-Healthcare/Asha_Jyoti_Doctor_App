@@ -38,13 +38,33 @@ android {
     }
 }
 
+// Force specific AndroidX activity versions in case some dependency pulls 1.8.x transitively.
+// This keeps the project compatible with compileSdk = 33 without upgrading AGP / SDK right now.
+configurations.all {
+    resolutionStrategy {
+        force(
+            "androidx.activity:activity:1.7.2",
+            "androidx.activity:activity-ktx:1.7.2"
+        )
+    }
+}
+
 dependencies {
-    implementation("com.google.android.material:material:1.9.0")
+    // Material Components (bumped to a recent stable)
+    implementation("com.google.android.material:material:1.10.0")
+
+    // CircleImageView for circular avatar
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.gridlayout:gridlayout:1.0.0")
+
+    // use activity libs pinned to 1.7.2 to match compileSdk 33
+    implementation("androidx.activity:activity:1.7.2")
     implementation("androidx.activity:activity-ktx:1.7.2")
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 }

@@ -32,7 +32,7 @@ class CHOLoginActivity : AppCompatActivity() {
             }
 
             // Demo auth - replace with your logic later
-            if (username == "doc" && password == "1234") {
+            if (username == "CHO001" && password == "123456") {
                 val i = Intent(this, CHODashboardActivity::class.java)
                 i.putExtra("extra_username", username)
                 startActivity(i)
