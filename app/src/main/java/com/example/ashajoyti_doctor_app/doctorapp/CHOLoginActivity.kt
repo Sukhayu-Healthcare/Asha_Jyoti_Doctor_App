@@ -65,16 +65,21 @@ class CHOLoginActivity : AppCompatActivity() {
                         if (data != null && !data.token.isNullOrBlank()) {
                             // Save token (and optionally doctor info)
                             AuthPref.saveToken(this@CHOLoginActivity, "Bearer ${data.token}")
-                            // Save username/display name if you want for later
-                            data.doctor?.let { doc ->
-                                AuthPref.saveDoctorName(this@CHOLoginActivity, doc.doc_name ?: username)
+
+                            // Save doctor info (id, name, speciality)
+                            try {
+                                AuthPref.saveDoctorId(this@CHOLoginActivity, data.doctor.doc_id)
+                            } catch (e: Exception) {
+                                // ignore if parsing fails
                             }
+                            AuthPref.saveDoctorName(this@CHOLoginActivity, data.doctor.doc_name)
+                            AuthPref.saveDoctorSpeciality(this@CHOLoginActivity, data.doctor.doc_speciality)
 
                             Toast.makeText(this@CHOLoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
 
                             // Navigate to Dashboard
                             val intent = Intent(this@CHOLoginActivity, CHODashboardActivity::class.java)
-                            intent.putExtra("extra_username", data.doctor?.doc_name ?: username)
+                            intent.putExtra("extra_username", data.doctor.doc_name)
                             startActivity(intent)
                             finish()
                         } else {

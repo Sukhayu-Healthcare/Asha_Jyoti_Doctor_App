@@ -14,6 +14,14 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.example.ashajoyti_doctor_app.R
+import com.example.ashajoyti_doctor_app.model.ConsultationListResponse
+import com.example.ashajoyti_doctor_app.network.ApiClient
+import com.example.ashajoyti_doctor_app.utils.AuthPref
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CHODashboardActivity : AppCompatActivity() {
 
@@ -34,6 +42,11 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var tvName: TextView
     private lateinit var tvDesignation: TextView
     private lateinit var tvId: TextView
+
+    // metric views
+    private lateinit var tvTodayCount: TextView
+    private lateinit var tvQueueCount: TextView
+    private lateinit var tvWaitingCount: TextView
 
     private lateinit var icRecentCalendar: ImageView
     private lateinit var tvRecentSubtitle: TextView
@@ -58,18 +71,31 @@ class CHODashboardActivity : AppCompatActivity() {
         tvDesignation = findViewById(R.id.tvDesignation)
         tvId = findViewById(R.id.tvId)
 
+        tvTodayCount = findViewById(R.id.tvTodayCount)
+        tvQueueCount = findViewById(R.id.tvQueueCount)
+        tvWaitingCount = findViewById(R.id.tvWaitingCount)
+
         icRecentCalendar = findViewById(R.id.ic_recent_calendar)
         tvRecentSubtitle = findViewById(R.id.tvRecentSubtitle)
 
-        // header text / role
+        // header text / role (fallbacks)
         appTitle.text = "ASHA JYOTI Doctor"
-        val roleText = "Chief Health Officer"
-        headerRoleShort.text = roleText
+        val fallbackRole = "Chief Health Officer"
+        headerRoleShort.text = fallbackRole
 
-        // profile block (sample values)
-        tvName.text = "Dr. Amit Kumar"
-        tvDesignation.text = roleText
-        tvId.text = "CHO001"
+        // load saved doctor info (from login)
+        val intentName = intent.getStringExtra("extra_username")
+        val savedName = AuthPref.getDoctorName(this)
+        val displayName = intentName ?: savedName ?: "Dr. (Unknown)"
+        tvName.text = displayName
+
+        // designation / speciality if present
+        val savedSpeciality = AuthPref.getDoctorSpeciality(this)
+        tvDesignation.text = savedSpeciality ?: fallbackRole
+
+        // show doctor id if saved
+        val savedId = AuthPref.getDoctorId(this)
+        tvId.text = if (savedId > 0) "CHO%03d".format(savedId) else "CHO001"
 
         // profile click actions
         val profileCard = findViewById<MaterialCardView>(R.id.profileCard)
@@ -143,6 +169,52 @@ class CHODashboardActivity : AppCompatActivity() {
             Toast.makeText(this, "Open recent consultations (todo)", Toast.LENGTH_SHORT).show()
         }
 
+        // fetch consultations to populate metrics
+        loadConsultationMetrics()
+
         Log.i(TAG, "CHODashboard initialized")
+    }
+
+    private fun loadConsultationMetrics() {
+        val token = AuthPref.getToken(this)
+        if (token.isNullOrBlank()) {
+            Log.w(TAG, "No auth token found — redirecting to login or showing message")
+            Toast.makeText(this, "Please login to load dashboard", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        ApiClient.api.getConsultations(token).enqueue(object : Callback<ConsultationListResponse> {
+            override fun onResponse(call: Call<ConsultationListResponse>, response: Response<ConsultationListResponse>) {
+                if (!response.isSuccessful || response.body() == null) {
+                    Log.e(TAG, "Failed to load consultations: code=${response.code()}")
+                    Toast.makeText(this@CHODashboardActivity, "Failed to load dashboard metrics", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                val body = response.body()!!
+                val list = body.consultations ?: emptyList()
+
+                // total waiting as returned by backend (if body.total is valid)
+                val totalWaiting = body.total
+                tvWaitingCount.text = totalWaiting.toString()
+
+                // queueCount = number of consultations in returned list
+                tvQueueCount.text = list.size.toString()
+
+                // today's date check (assumes consultation_date starts with yyyy-MM-dd or similar)
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val today = sdf.format(Date())
+                val todayCount = list.count { it.consultation_date.startsWith(today) }
+                tvTodayCount.text = todayCount.toString()
+
+                // subtitle update with sample text
+                tvRecentSubtitle.text = if (todayCount > 0) "You have $todayCount consultations today" else "No consultations today"
+            }
+
+            override fun onFailure(call: Call<ConsultationListResponse>, t: Throwable) {
+                Log.e(TAG, "Consultations API failure", t)
+                Toast.makeText(this@CHODashboardActivity, "Network error while loading dashboard", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
