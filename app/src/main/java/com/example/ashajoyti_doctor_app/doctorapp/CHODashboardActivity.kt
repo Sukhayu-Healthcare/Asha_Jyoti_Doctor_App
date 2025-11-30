@@ -22,7 +22,7 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var cardQuick: MaterialCardView
     private lateinit var cardPatient: MaterialCardView
     private lateinit var cardRedirect: MaterialCardView
-    private lateinit var cardPast: MaterialCardView                // <-- ADDED
+    private lateinit var cardPast: MaterialCardView
     private lateinit var switchAvailable: SwitchMaterial
     private lateinit var tvAvailableBadge: TextView
 
@@ -42,11 +42,11 @@ class CHODashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard) // matches file name
 
-        // find views
+        // find views (will throw early if a required view is missing)
         cardQuick = findViewById(R.id.cardQuick)
         cardPatient = findViewById(R.id.cardPatientQueue)
         cardRedirect = findViewById(R.id.cardRedirect)
-        cardPast = findViewById(R.id.cardPastConsultations)       // <-- INITIALIZE
+        cardPast = findViewById(R.id.cardPastConsultations)
         switchAvailable = findViewById(R.id.switchAvailable)
         tvAvailableBadge = findViewById(R.id.tvAvailableBadge)
 
@@ -71,43 +71,44 @@ class CHODashboardActivity : AppCompatActivity() {
         tvDesignation.text = roleText
         tvId.text = "CHO001"
 
-        // make profile card clickable to open profile
+        // profile click actions
         val profileCard = findViewById<MaterialCardView>(R.id.profileCard)
         profileCard.setOnClickListener {
             Log.i(TAG, "profileCard clicked — launching CHOProfileActivity")
-            startActivity(Intent(this, CHOProfileActivity::class.java))
+            startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
 
-        // also wire the "Profile" text and header avatar to same action (safer UX)
         findViewById<TextView>(R.id.tvProfile).setOnClickListener {
             Log.i(TAG, "tvProfile clicked — launching CHOProfileActivity")
-            startActivity(Intent(this, CHOProfileActivity::class.java))
+            startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
         appLogoSmall.setOnClickListener {
             Log.i(TAG, "header avatar clicked — launching CHOProfileActivity")
-            startActivity(Intent(this, CHOProfileActivity::class.java))
+            startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
 
         // card clicks
         cardQuick.setOnClickListener { Toast.makeText(this, "Quick Consultation clicked", Toast.LENGTH_SHORT).show() }
         cardPatient.setOnClickListener {
             try {
-                startActivity(Intent(this, PatientQueueActivity::class.java))
+                Log.i(TAG, "Opening PatientQueueActivity")
+                startActivity(Intent(this@CHODashboardActivity, PatientQueueActivity::class.java))
             } catch (t: Throwable) {
+                Log.e(TAG, "Error opening PatientQueueActivity", t)
                 Toast.makeText(this, "Can't open patient queue.", Toast.LENGTH_SHORT).show()
             }
         }
         cardRedirect.setOnClickListener { Toast.makeText(this, "Redirection clicked", Toast.LENGTH_SHORT).show() }
 
-        // cardPast click (now uses class-level var)
+        // cardPast click (safe start)
         cardPast.setOnClickListener {
-            Toast.makeText(this, "Open Past Consultations (todo)", Toast.LENGTH_SHORT).show()
-            // Example: startActivity(Intent(this, PastConsultationsActivity::class.java))
-        }
-
-
-        cardPast.setOnClickListener {
-        startActivity(Intent(this, PastConsultationsActivity::class.java))
+            Log.i(TAG, "cardPast clicked — attempting to open PastConsultationsActivity")
+            try {
+                startActivity(Intent(this@CHODashboardActivity, PastConsultationsActivity::class.java))
+            } catch (t: Throwable) {
+                Log.e(TAG, "Failed to start PastConsultationsActivity", t)
+                Toast.makeText(this, "Unable to open Past Consultations.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // switch logic - using hex fallback colors (no custom R.color required)
@@ -121,7 +122,7 @@ class CHODashboardActivity : AppCompatActivity() {
             }
         }
 
-        // ensure initial text for badge
+        // initial badge state
         if (switchAvailable.isChecked) {
             tvAvailableBadge.text = "Available"
             tvAvailableBadge.setTextColor(Color.parseColor("#1F9D55"))

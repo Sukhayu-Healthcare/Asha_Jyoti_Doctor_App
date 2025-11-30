@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ashajoyti_doctor_app">
+
+    <!-- Required for network access -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-    android:allowBackup="true"
-    android:label="@string/app_name"
-    android:icon="@drawable/asha_jyoti_app_logo"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:supportsRtl="true"
-    android:theme="@style/Theme_ASHA_JYOTI_DOCTOR_APP">
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@drawable/asha_jyoti_app_logo"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme_ASHA_JYOTI_DOCTOR_APP">
 
-    <!-- Launcher -->
-    <activity
-        android:name="com.example.ashajoyti_doctor_app.doctorapp.MainActivity"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+        <!-- Launcher -->
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-        <!-- Other activities (fully-qualified names are fine) -->
+        <!-- Other activities -->
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.RoleSelectionActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHOLoginActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHODashboardActivity" android:exported="false" />
@@ -32,7 +36,6 @@
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientQueueActivity" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PastConsultationsActivity" android:exported="false" android:label="Past Consultations" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientDetailsActivity" android:exported="false" />
-
 
     </application>
 </manifest>

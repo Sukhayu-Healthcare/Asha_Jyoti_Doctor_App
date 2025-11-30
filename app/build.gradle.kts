@@ -28,8 +28,6 @@ android {
 
     // Keep Kotlin jvmTarget in sync
     kotlinOptions {
-        // For Kotlin DSL in Android module this block works; jvmToolchain already enforces toolchain,
-        // but keep jvmTarget for clarity.
         jvmTarget = "17"
     }
 
@@ -67,4 +65,19 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+
+    // -----------------------
+    // Networking libraries
+    // -----------------------
+
+    // Retrofit + Gson converter
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // OkHttp + logging interceptor
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // Gson (optional but helpful)
+    implementation("com.google.code.gson:gson:2.10.1")
 }

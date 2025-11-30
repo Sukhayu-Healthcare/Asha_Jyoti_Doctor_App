@@ -156,7 +156,8 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:layout_marginBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -188,6 +189,60 @@
                         android:layout_marginTop="8dp"
                         android:textSize="14sp"
                         android:textColor="#444"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ====== ADDED: Diagnosis, Notes, Submit button ====== -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:padding="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/etDiagnosis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Diagnosis"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:padding="10dp"
+                        android:textColor="#111"
+                        android:textSize="14sp"
+                        android:background="@android:drawable/edit_text" />
+
+                    <EditText
+                        android:id="@+id/etNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Notes / Prescription"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
+                        android:gravity="top"
+                        android:padding="10dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#111"
+                        android:textSize="14sp"
+                        android:background="@android:drawable/edit_text" />
+
+                    <Button
+                        android:id="@+id/btnSubmitConsultation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Submit Consultation"
+                        android:layout_marginTop="12dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:padding="12dp"/>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

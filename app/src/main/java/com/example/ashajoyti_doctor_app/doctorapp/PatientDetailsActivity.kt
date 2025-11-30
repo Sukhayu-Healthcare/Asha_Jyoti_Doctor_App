@@ -4,10 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.ashajoyti_doctor_app.R
+import com.example.ashajoyti_doctor_app.model.CreateConsultationRequest
+import com.example.ashajoyti_doctor_app.model.PrescriptionItem
+import com.example.ashajoyti_doctor_app.model.ConsultationCreateResponse
+import com.example.ashajoyti_doctor_app.network.ApiClient
+import com.example.ashajoyti_doctor_app.utils.AuthPref
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PatientDetailsActivity : AppCompatActivity() {
 
@@ -52,6 +63,9 @@ class PatientDetailsActivity : AppCompatActivity() {
         }
     }
 
+    // If your layout provides a prescription list adapter, later replace the empty list below
+    private val prescriptionListForSubmission: MutableList<PrescriptionItem> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_details)
@@ -89,6 +103,12 @@ class PatientDetailsActivity : AppCompatActivity() {
         val tvFeedbackText = findViewById<TextView?>(R.id.tvFeedbackText)
         val tvFeedbackRating = findViewById<TextView?>(R.id.tvFeedbackRating)
 
+        // --- fields for submitting consultation (you must add these IDs in layout) ---
+        // If the IDs don't exist yet, add them: etDiagnosis, etNotes, btnSubmitConsultation
+        val etDiagnosis = findViewById<EditText?>(R.id.etDiagnosis)
+        val etNotes = findViewById<EditText?>(R.id.etNotes)
+        val btnSubmit = findViewById<Button?>(R.id.btnSubmitConsultation)
+
         // fill
         tvName?.text = name
         tvAgeGender?.text = "$age · $gender"
@@ -103,5 +123,95 @@ class PatientDetailsActivity : AppCompatActivity() {
         } else {
             "No rating"
         }
+
+        // Note: patientId in your app may be a string like "P001". Backend expects integer patient_id.
+        // We'll try to extract digits; if none found, we will show an error to the user.
+        val patientIdInt = extractDigitsAsInt(patientId)
+        if (patientIdInt == null) {
+            Log.w(TAG, "Unable to parse patient id to integer: '$patientId'")
+            // still allow viewing details; submission will be disabled if btnSubmit exists
+            btnSubmit?.isEnabled = false
+        }
+
+        // If your UI supports adding prescription items (RV + adapter), populate `prescriptionListForSubmission`.
+        // For now it's empty; later integrate your prescription adapter's list here.
+
+        btnSubmit?.setOnClickListener {
+            // ensure token present
+            val token = AuthPref.getToken(this)
+            if (token == null) {
+                Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // required: patient id must be numeric
+            val pid = patientIdInt
+            if (pid == null) {
+                Toast.makeText(this, "Invalid patient ID. Cannot submit.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val diagnosisText = etDiagnosis?.text?.toString()?.trim()
+            val notesText = etNotes?.text?.toString()?.trim()
+
+            val request = CreateConsultationRequest(
+                patient_id = pid,
+                diagnosis = if (diagnosisText.isNullOrEmpty()) null else diagnosisText,
+                notes = if (notesText.isNullOrEmpty()) null else notesText,
+                items = if (prescriptionListForSubmission.isEmpty()) null else prescriptionListForSubmission
+            )
+
+            // disable button to avoid double clicks
+            btnSubmit.isEnabled = false
+            Toast.makeText(this, "Submitting consultation...", Toast.LENGTH_SHORT).show()
+
+            ApiClient.api.createConsultation(token, request)
+                .enqueue(object : Callback<ConsultationCreateResponse> {
+                    override fun onResponse(
+                        call: Call<ConsultationCreateResponse>,
+                        response: Response<ConsultationCreateResponse>
+                    ) {
+                        btnSubmit.isEnabled = true
+                        if (response.isSuccessful && response.body() != null) {
+                            Toast.makeText(
+                                this@PatientDetailsActivity,
+                                "Consultation submitted",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            // optionally finish or refresh
+                            finish()
+                        } else {
+                            val msg = try {
+                                response.errorBody()?.string() ?: "Server error"
+                            } catch (e: Exception) {
+                                "Server error"
+                            }
+                            Toast.makeText(
+                                this@PatientDetailsActivity,
+                                "Submit failed: $msg",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ConsultationCreateResponse>, t: Throwable) {
+                        btnSubmit.isEnabled = true
+                        Toast.makeText(
+                            this@PatientDetailsActivity,
+                            "Network error: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        }
+    }
+
+    /**
+     * Try to extract digits from a patient id string (e.g. "P001" -> 1, "123" -> 123).
+     * Returns null if no digits found.
+     */
+    private fun extractDigitsAsInt(id: String): Int? {
+        val match = Regex("\\d+").find(id)
+        return match?.value?.toIntOrNull()
     }
 }
