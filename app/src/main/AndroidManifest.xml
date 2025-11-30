@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ashajoyti_doctor_app">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
     android:allowBackup="true"
@@ -30,6 +29,9 @@
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.ChiefHealthOfficerActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHOProfileActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.EditProfileActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientQueueActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PastConsultationsActivity" android:exported="false" android:label="Past Consultations" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientDetailsActivity" android:exported="false" />
 
 
     </application>

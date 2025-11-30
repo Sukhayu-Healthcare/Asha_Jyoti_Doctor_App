@@ -22,6 +22,7 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var cardQuick: MaterialCardView
     private lateinit var cardPatient: MaterialCardView
     private lateinit var cardRedirect: MaterialCardView
+    private lateinit var cardPast: MaterialCardView                // <-- ADDED
     private lateinit var switchAvailable: SwitchMaterial
     private lateinit var tvAvailableBadge: TextView
 
@@ -45,6 +46,7 @@ class CHODashboardActivity : AppCompatActivity() {
         cardQuick = findViewById(R.id.cardQuick)
         cardPatient = findViewById(R.id.cardPatientQueue)
         cardRedirect = findViewById(R.id.cardRedirect)
+        cardPast = findViewById(R.id.cardPastConsultations)       // <-- INITIALIZE
         switchAvailable = findViewById(R.id.switchAvailable)
         tvAvailableBadge = findViewById(R.id.tvAvailableBadge)
 
@@ -88,8 +90,25 @@ class CHODashboardActivity : AppCompatActivity() {
 
         // card clicks
         cardQuick.setOnClickListener { Toast.makeText(this, "Quick Consultation clicked", Toast.LENGTH_SHORT).show() }
-        cardPatient.setOnClickListener { Toast.makeText(this, "Patient Queue clicked", Toast.LENGTH_SHORT).show() }
+        cardPatient.setOnClickListener {
+            try {
+                startActivity(Intent(this, PatientQueueActivity::class.java))
+            } catch (t: Throwable) {
+                Toast.makeText(this, "Can't open patient queue.", Toast.LENGTH_SHORT).show()
+            }
+        }
         cardRedirect.setOnClickListener { Toast.makeText(this, "Redirection clicked", Toast.LENGTH_SHORT).show() }
+
+        // cardPast click (now uses class-level var)
+        cardPast.setOnClickListener {
+            Toast.makeText(this, "Open Past Consultations (todo)", Toast.LENGTH_SHORT).show()
+            // Example: startActivity(Intent(this, PastConsultationsActivity::class.java))
+        }
+
+
+        cardPast.setOnClickListener {
+        startActivity(Intent(this, PastConsultationsActivity::class.java))
+        }
 
         // switch logic - using hex fallback colors (no custom R.color required)
         switchAvailable.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->

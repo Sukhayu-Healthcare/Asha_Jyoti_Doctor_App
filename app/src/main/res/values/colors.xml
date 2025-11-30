@@ -10,5 +10,9 @@
     <color name="colorPrimary">#0B4470</color>
     <color name="colorPrimaryVariant">#072440</color>
     <color name="recent_icon_tint">#6B7280</color>
-</resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
+    <!-- NEW: surface / card background used by activity_patient_queue -->
+    <color name="surface_background">#F4F6FA</color>
+</resources>
