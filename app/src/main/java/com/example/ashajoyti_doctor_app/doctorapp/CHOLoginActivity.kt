@@ -3,6 +3,7 @@ package com.example.ashajoyti_doctor_app.doctorapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -17,6 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class CHOLoginActivity : AppCompatActivity() {
 
     private lateinit var edtUsername: EditText
@@ -30,6 +32,17 @@ class CHOLoginActivity : AppCompatActivity() {
         edtUsername = findViewById(R.id.edtUsername)
         edtPassword = findViewById(R.id.edtPassword)
         btnLogin = findViewById(R.id.btnLogin)
+
+        // read role passed from RoleSelectionActivity
+        val selectedRole = intent.getStringExtra("role") ?: "CHO"
+
+        // Optional: update UI hint to show role (makes UX clearer)
+        edtUsername.hint = when (selectedRole) {
+            "MO" -> "MO Login ID (e.g. MO001)"
+            "CIVIL" -> "Hospital Doctor ID (e.g. CD001)"
+            "EMERGENCY" -> "Emergency Doctor ID"
+            else -> "CHO001"
+        }
 
         btnLogin.setOnClickListener {
             // Hide keyboard
@@ -48,9 +61,8 @@ class CHOLoginActivity : AppCompatActivity() {
             btnLogin.isEnabled = false
             btnLogin.alpha = 0.6f
 
-            // Build request object (ensure your LoginRequest uses 'password')
             val request = LoginRequest(
-                doc_id = username,   // using doc_id; change if backend expects different key
+                doc_id = username,
                 doc_phone = null,
                 password = password
             )
@@ -60,34 +72,27 @@ class CHOLoginActivity : AppCompatActivity() {
                     btnLogin.isEnabled = true
                     btnLogin.alpha = 1f
 
-                    if (response.isSuccessful) {
-                        val data = response.body()
-                        if (data != null && !data.token.isNullOrBlank()) {
-                            // Save token (and optionally doctor info)
-                            AuthPref.saveToken(this@CHOLoginActivity, "Bearer ${data.token}")
+                    if (response.isSuccessful && response.body() != null) {
+                        val data = response.body()!!
 
-                            // Save doctor info (id, name, speciality)
-                            try {
-                                AuthPref.saveDoctorId(this@CHOLoginActivity, data.doctor.doc_id)
-                            } catch (e: Exception) {
-                                // ignore if parsing fails
-                            }
-                            AuthPref.saveDoctorName(this@CHOLoginActivity, data.doctor.doc_name)
-                            AuthPref.saveDoctorSpeciality(this@CHOLoginActivity, data.doctor.doc_speciality)
+                        // Save token and doctor info
+                        AuthPref.saveToken(this@CHOLoginActivity, "Bearer ${data.token}")
+                        AuthPref.saveDoctorName(this@CHOLoginActivity, data.doctor.doc_name)
+                        try { AuthPref.saveDoctorId(this@CHOLoginActivity, data.doctor.doc_id) } catch (_: Exception) {}
+                        AuthPref.saveDoctorSpeciality(this@CHOLoginActivity, data.doctor.doc_speciality)
 
-                            Toast.makeText(this@CHOLoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+                        // SAVE the selected role too
+                        AuthPref.saveRole(this@CHOLoginActivity, selectedRole)
 
-                            // Navigate to Dashboard
-                            val intent = Intent(this@CHOLoginActivity, CHODashboardActivity::class.java)
-                            intent.putExtra("extra_username", data.doctor.doc_name)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            // Successful HTTP but missing body/token
-                            Toast.makeText(this@CHOLoginActivity, "Login failed: invalid server response", Toast.LENGTH_SHORT).show()
-                        }
+                        Toast.makeText(this@CHOLoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+
+                        // Navigate to Dashboard
+                        val intent = Intent(this@CHOLoginActivity, CHODashboardActivity::class.java)
+                        intent.putExtra("extra_username", data.doctor.doc_name)
+                        startActivity(intent)
+                        finish()
                     } else {
-                        // Try to provide a more descriptive message based on status code
+                        // error handling
                         if (response.code() == 401) {
                             Toast.makeText(this@CHOLoginActivity, "Invalid ID or Password", Toast.LENGTH_SHORT).show()
                         } else {
@@ -99,6 +104,7 @@ class CHOLoginActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     btnLogin.isEnabled = true
                     btnLogin.alpha = 1f
+                    Log.e("LOGIN_FAIL", "Login request failed: ${t::class.java.simpleName} - ${t.message}", t)
                     Toast.makeText(this@CHOLoginActivity, "Network error, try again", Toast.LENGTH_SHORT).show()
                 }
             })

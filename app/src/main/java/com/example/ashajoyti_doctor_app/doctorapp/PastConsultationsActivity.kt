@@ -22,7 +22,7 @@ class PastConsultationsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_past_consultations)
 
-        // Toolbar
+        // Toolbar (if present in layout)
         val tbId = resources.getIdentifier("toolbarPast", "id", packageName)
         if (tbId != 0) {
             val tb = findViewById<androidx.appcompat.widget.Toolbar>(tbId)
@@ -71,7 +71,6 @@ class PastConsultationsActivity : AppCompatActivity() {
                             feedbackText = ""
                         )
                     }) { item ->
-
                         val intent = PatientDetailsActivity.createIntent(
                             context = this@PastConsultationsActivity,
                             name = item.name,

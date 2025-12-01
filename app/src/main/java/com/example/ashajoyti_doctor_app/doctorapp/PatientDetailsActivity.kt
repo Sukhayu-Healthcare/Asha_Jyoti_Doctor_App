@@ -63,14 +63,12 @@ class PatientDetailsActivity : AppCompatActivity() {
         }
     }
 
-    // If your layout provides a prescription list adapter, later replace the empty list below
     private val prescriptionListForSubmission: MutableList<PrescriptionItem> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_details)
 
-        // direct toolbar find (ensure layout contains toolbarDetails)
         val tb = findViewById<Toolbar?>(R.id.toolbarDetails)
         if (tb != null) {
             setSupportActionBar(tb)
@@ -80,7 +78,6 @@ class PatientDetailsActivity : AppCompatActivity() {
             Log.w(TAG, "toolbarDetails not found in layout")
         }
 
-        // --- read extras safely ---
         val name = intent.getStringExtra(EXTRA_NAME) ?: "Unknown"
         val patientId = intent.getStringExtra(EXTRA_PATIENT_ID) ?: "—"
         val age = intent.getStringExtra(EXTRA_AGE) ?: "—"
@@ -92,7 +89,6 @@ class PatientDetailsActivity : AppCompatActivity() {
         val feedbackText = intent.getStringExtra(EXTRA_FEEDBACK_TEXT) ?: "No feedback"
         val feedbackRating = intent.getDoubleExtra(EXTRA_FEEDBACK_RATING, -1.0)
 
-        // --- bind views (these IDs must exist in activity_patient_details.xml) ---
         val tvName = findViewById<TextView?>(R.id.tvName)
         val tvAgeGender = findViewById<TextView?>(R.id.tvAgeGender)
         val tvPatientId = findViewById<TextView?>(R.id.tvPatientId)
@@ -103,13 +99,10 @@ class PatientDetailsActivity : AppCompatActivity() {
         val tvFeedbackText = findViewById<TextView?>(R.id.tvFeedbackText)
         val tvFeedbackRating = findViewById<TextView?>(R.id.tvFeedbackRating)
 
-        // --- fields for submitting consultation (you must add these IDs in layout) ---
-        // If the IDs don't exist yet, add them: etDiagnosis, etNotes, btnSubmitConsultation
         val etDiagnosis = findViewById<EditText?>(R.id.etDiagnosis)
         val etNotes = findViewById<EditText?>(R.id.etNotes)
         val btnSubmit = findViewById<Button?>(R.id.btnSubmitConsultation)
 
-        // fill
         tvName?.text = name
         tvAgeGender?.text = "$age · $gender"
         tvPatientId?.text = "ID: $patientId"
@@ -124,27 +117,19 @@ class PatientDetailsActivity : AppCompatActivity() {
             "No rating"
         }
 
-        // Note: patientId in your app may be a string like "P001". Backend expects integer patient_id.
-        // We'll try to extract digits; if none found, we will show an error to the user.
         val patientIdInt = extractDigitsAsInt(patientId)
         if (patientIdInt == null) {
             Log.w(TAG, "Unable to parse patient id to integer: '$patientId'")
-            // still allow viewing details; submission will be disabled if btnSubmit exists
             btnSubmit?.isEnabled = false
         }
 
-        // If your UI supports adding prescription items (RV + adapter), populate `prescriptionListForSubmission`.
-        // For now it's empty; later integrate your prescription adapter's list here.
-
         btnSubmit?.setOnClickListener {
-            // ensure token present
             val token = AuthPref.getToken(this)
             if (token == null) {
                 Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // required: patient id must be numeric
             val pid = patientIdInt
             if (pid == null) {
                 Toast.makeText(this, "Invalid patient ID. Cannot submit.", Toast.LENGTH_SHORT).show()
@@ -161,7 +146,6 @@ class PatientDetailsActivity : AppCompatActivity() {
                 items = if (prescriptionListForSubmission.isEmpty()) null else prescriptionListForSubmission
             )
 
-            // disable button to avoid double clicks
             btnSubmit.isEnabled = false
             Toast.makeText(this, "Submitting consultation...", Toast.LENGTH_SHORT).show()
 
@@ -178,7 +162,6 @@ class PatientDetailsActivity : AppCompatActivity() {
                                 "Consultation submitted",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            // optionally finish or refresh
                             finish()
                         } else {
                             val msg = try {
@@ -206,10 +189,6 @@ class PatientDetailsActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Try to extract digits from a patient id string (e.g. "P001" -> 1, "123" -> 123).
-     * Returns null if no digits found.
-     */
     private fun extractDigitsAsInt(id: String): Int? {
         val match = Regex("\\d+").find(id)
         return match?.value?.toIntOrNull()

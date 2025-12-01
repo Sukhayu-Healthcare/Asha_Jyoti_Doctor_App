@@ -8,6 +8,7 @@ object AuthPref {
     private const val KEY_DOCTOR_NAME = "key_doctor_name"
     private const val KEY_DOCTOR_ID = "key_doctor_id"
     private const val KEY_DOCTOR_SPECIALITY = "key_doctor_speciality"
+    private const val KEY_USER_ROLE = "key_user_role"
 
     // Save auth token (e.g. "Bearer abc...")
     fun saveToken(context: Context, token: String) {
@@ -20,7 +21,6 @@ object AuthPref {
         return prefs.getString(KEY_TOKEN, null)
     }
 
-    // Save doctor name (for display in toolbar etc.)
     fun saveDoctorName(context: Context, name: String) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_DOCTOR_NAME, name).apply()
@@ -31,7 +31,6 @@ object AuthPref {
         return prefs.getString(KEY_DOCTOR_NAME, null)
     }
 
-    // Save doctor id (int stored as string)
     fun saveDoctorId(context: Context, id: Int) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putInt(KEY_DOCTOR_ID, id).apply()
@@ -42,7 +41,6 @@ object AuthPref {
         return prefs.getInt(KEY_DOCTOR_ID, -1)
     }
 
-    // Save speciality
     fun saveDoctorSpeciality(context: Context, speciality: String?) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         if (speciality != null) prefs.edit().putString(KEY_DOCTOR_SPECIALITY, speciality).apply()
@@ -53,7 +51,18 @@ object AuthPref {
         return prefs.getString(KEY_DOCTOR_SPECIALITY, null)
     }
 
-    // Optional: clear all auth data (logout)
+    // Save role (CHO / MO / CIVIL / EMERGENCY)
+    fun saveRole(context: Context, role: String) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_USER_ROLE, role).apply()
+    }
+
+    fun getRole(context: Context): String? {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_USER_ROLE, null)
+    }
+
+    // Clear all auth data (logout)
     fun clear(context: Context) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().clear().apply()

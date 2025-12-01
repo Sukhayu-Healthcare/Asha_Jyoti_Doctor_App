@@ -11,7 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.ashajoyti_doctor_app.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.example.ashajoyti_doctor_app.config.RoleConfigFactory
+import com.example.ashajoyti_doctor_app.model.Role
+import com.example.ashajoyti_doctor_app.utils.AuthPref
 import de.hdodenhof.circleimageview.CircleImageView
+
 
 class CHOProfileActivity : AppCompatActivity() {
 
@@ -109,16 +113,22 @@ class CHOProfileActivity : AppCompatActivity() {
         val name = prefs.getString(KEY_NAME, "Dr. Amit Kumar") ?: "Dr. Amit Kumar"
         val phone = prefs.getString(KEY_PHONE, "+91-9876543213") ?: "+91-9876543213"
         val avatarUriStr = prefs.getString(KEY_AVATAR_URI, null)
-        val docId = prefs.getString("cho_id", "CHO001") ?: "CHO001"
-        val designation = prefs.getString("cho_designation", "Chief Health Officer") ?: "Chief Health Officer"
-        val role = prefs.getString("cho_role", "CHO") ?: "CHO"
+
+        // Use saved role from AuthPref if available
+        val savedRoleStr = AuthPref.getRole(this)
+        val role = Role.fromName(savedRoleStr)
+        val cfg = RoleConfigFactory.get(role)
+
+        // docId and designation from prefs (fallbacks)
+        val docId = prefs.getString("cho_id", "${role.name}001") ?: "${role.name}001"
+        val designation = prefs.getString("cho_designation", cfg.designationLabel) ?: cfg.designationLabel
 
         try {
             etFullName.setText(name)
             etPhone.setText(phone)
             etDoctorId.text = docId
             etDesignation.setText(designation)
-            etRole.setText(role)
+            etRole.setText(cfg.designationLabel)
         } catch (t: Throwable) {
             Log.w(TAG, "Error setting text fields: ${t.message}")
         }

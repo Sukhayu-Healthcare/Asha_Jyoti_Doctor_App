@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +15,8 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.example.ashajoyti_doctor_app.R
+import com.example.ashajoyti_doctor_app.config.RoleConfigFactory
+import com.example.ashajoyti_doctor_app.model.Role
 import com.example.ashajoyti_doctor_app.model.ConsultationListResponse
 import com.example.ashajoyti_doctor_app.network.ApiClient
 import com.example.ashajoyti_doctor_app.utils.AuthPref
@@ -22,6 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class CHODashboardActivity : AppCompatActivity() {
 
@@ -51,6 +55,10 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var icRecentCalendar: ImageView
     private lateinit var tvRecentSubtitle: TextView
 
+    // text labels inside cards
+    private lateinit var tvPatientQueueTitle: TextView
+    private lateinit var tvQuickTitle: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard) // matches file name
@@ -78,10 +86,26 @@ class CHODashboardActivity : AppCompatActivity() {
         icRecentCalendar = findViewById(R.id.ic_recent_calendar)
         tvRecentSubtitle = findViewById(R.id.tvRecentSubtitle)
 
-        // header text / role (fallbacks)
+        tvPatientQueueTitle = findViewById(R.id.tvPatientQueueTitle)
+        tvQuickTitle = findViewById(R.id.tvQuickTitle)
+
+        // header text
         appTitle.text = "ASHA JYOTI Doctor"
-        val fallbackRole = "Chief Health Officer"
-        headerRoleShort.text = fallbackRole
+
+        // Determine role from prefs (fallback to CHO)
+        val roleName = AuthPref.getRole(this)
+        val role = Role.fromName(roleName)
+        val cfg = RoleConfigFactory.get(role)
+
+        // apply role-based labels
+        headerRoleShort.text = cfg.designationLabel
+        tvDesignation.text = cfg.designationLabel
+
+        tvPatientQueueTitle.text = cfg.patientQueueLabel
+        tvQuickTitle.text = cfg.quickConsultLabel
+
+        // show/hide redirect card
+        cardRedirect.visibility = if (cfg.showRedirectCard) View.VISIBLE else View.GONE
 
         // load saved doctor info (from login)
         val intentName = intent.getStringExtra("extra_username")
@@ -89,13 +113,27 @@ class CHODashboardActivity : AppCompatActivity() {
         val displayName = intentName ?: savedName ?: "Dr. (Unknown)"
         tvName.text = displayName
 
-        // designation / speciality if present
+        // speciality (if backend saved it)
         val savedSpeciality = AuthPref.getDoctorSpeciality(this)
-        tvDesignation.text = savedSpeciality ?: fallbackRole
+        tvDesignation.text = savedSpeciality ?: cfg.designationLabel
 
         // show doctor id if saved
         val savedId = AuthPref.getDoctorId(this)
-        tvId.text = if (savedId > 0) "CHO%03d".format(savedId) else "CHO001"
+
+        // id prefix based on role
+        val idPrefix = when (role) {
+            Role.CHO -> "CHO"
+            Role.MO -> "MO"
+            Role.CIVIL -> "CD"
+            Role.EMERGENCY -> "ED"
+        }
+
+        // CORRECTED: use String.format for formatted id, and use ${idPrefix} for fallback
+        tvId.text = if (savedId > 0) {
+            String.format(Locale.getDefault(), "%s%03d", idPrefix, savedId)
+        } else {
+            "${idPrefix}001"
+        }
 
         // profile click actions
         val profileCard = findViewById<MaterialCardView>(R.id.profileCard)
@@ -113,18 +151,28 @@ class CHODashboardActivity : AppCompatActivity() {
             startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
 
-        // card clicks
-        cardQuick.setOnClickListener { Toast.makeText(this, "Quick Consultation clicked", Toast.LENGTH_SHORT).show() }
+        // card clicks: keep general behavior but pass role where useful
+        cardQuick.setOnClickListener {
+            Toast.makeText(this, "${cfg.quickConsultLabel} clicked", Toast.LENGTH_SHORT).show()
+        }
         cardPatient.setOnClickListener {
             try {
-                Log.i(TAG, "Opening PatientQueueActivity")
-                startActivity(Intent(this@CHODashboardActivity, PatientQueueActivity::class.java))
+                Log.i(TAG, "Opening PatientQueueActivity for role=${role.name}")
+                val intent = Intent(this@CHODashboardActivity, PatientQueueActivity::class.java)
+                intent.putExtra("role", role.name)
+                startActivity(intent)
             } catch (t: Throwable) {
                 Log.e(TAG, "Error opening PatientQueueActivity", t)
                 Toast.makeText(this, "Can't open patient queue.", Toast.LENGTH_SHORT).show()
             }
         }
-        cardRedirect.setOnClickListener { Toast.makeText(this, "Redirection clicked", Toast.LENGTH_SHORT).show() }
+        cardRedirect.setOnClickListener {
+            if (cfg.canRedirect) {
+                Toast.makeText(this, "Redirection clicked", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Redirect not available for this role", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // cardPast click (safe start)
         cardPast.setOnClickListener {
@@ -172,7 +220,7 @@ class CHODashboardActivity : AppCompatActivity() {
         // fetch consultations to populate metrics
         loadConsultationMetrics()
 
-        Log.i(TAG, "CHODashboard initialized")
+        Log.i(TAG, "CHODashboard initialized for role=${role.name}")
     }
 
     private fun loadConsultationMetrics() {
@@ -192,7 +240,7 @@ class CHODashboardActivity : AppCompatActivity() {
                 }
 
                 val body = response.body()!!
-                val list = body.consultations ?: emptyList()
+                val list = body.consultations
 
                 // total waiting as returned by backend (if body.total is valid)
                 val totalWaiting = body.total
