@@ -82,7 +82,7 @@ class CHOLoginActivity : AppCompatActivity() {
                         AuthPref.saveDoctorSpeciality(this@CHOLoginActivity, data.doctor.doc_speciality)
 
                         // SAVE the selected role too
-                        AuthPref.saveRole(this@CHOLoginActivity, selectedRole)
+                        AuthPref.saveRole(this@CHOLoginActivity, data.doctor.doc_role)
 
                         Toast.makeText(this@CHOLoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
 
