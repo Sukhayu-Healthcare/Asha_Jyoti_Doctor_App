@@ -110,7 +110,7 @@ class CHOProfileActivity : AppCompatActivity() {
         // Load latest saved values from prefs so changes from EditProfileActivity appear immediately
         val prefs = getSharedPreferences(PREFS, MODE_PRIVATE)
 
-        val name = AuthPref.getDoctorName(KEY_DOCTOR_NAME) 
+        val name = AuthPref.getDoctorName(this) 
         val phone = prefs.getString(KEY_PHONE, "+91-9876543213") ?: "+91-9876543213"
         val avatarUriStr = prefs.getString(KEY_AVATAR_URI, null)
 
