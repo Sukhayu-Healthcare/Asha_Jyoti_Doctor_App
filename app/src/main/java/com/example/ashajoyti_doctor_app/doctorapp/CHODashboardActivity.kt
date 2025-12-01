@@ -26,14 +26,12 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class CHODashboardActivity : AppCompatActivity() {
 
     private val TAG = "CHODashboardActivity"
 
     private lateinit var cardQuick: MaterialCardView
     private lateinit var cardPatient: MaterialCardView
-    private lateinit var cardRedirect: MaterialCardView
     private lateinit var cardPast: MaterialCardView
     private lateinit var switchAvailable: SwitchMaterial
     private lateinit var tvAvailableBadge: TextView
@@ -61,12 +59,11 @@ class CHODashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard) // matches file name
+        setContentView(R.layout.activity_dashboard)
 
-        // find views (will throw early if a required view is missing)
+        // find views
         cardQuick = findViewById(R.id.cardQuick)
         cardPatient = findViewById(R.id.cardPatientQueue)
-        cardRedirect = findViewById(R.id.cardRedirect)
         cardPast = findViewById(R.id.cardPastConsultations)
         switchAvailable = findViewById(R.id.switchAvailable)
         tvAvailableBadge = findViewById(R.id.tvAvailableBadge)
@@ -104,9 +101,6 @@ class CHODashboardActivity : AppCompatActivity() {
         tvPatientQueueTitle.text = cfg.patientQueueLabel
         tvQuickTitle.text = cfg.quickConsultLabel
 
-        // show/hide redirect card
-        cardRedirect.visibility = if (cfg.showRedirectCard) View.VISIBLE else View.GONE
-
         // load saved doctor info (from login)
         val intentName = intent.getStringExtra("extra_username")
         val savedName = AuthPref.getDoctorName(this)
@@ -128,7 +122,6 @@ class CHODashboardActivity : AppCompatActivity() {
             Role.EMERGENCY -> "ED"
         }
 
-        // CORRECTED: use String.format for formatted id, and use ${idPrefix} for fallback
         tvId.text = if (savedId > 0) {
             String.format(Locale.getDefault(), "%s%03d", idPrefix, savedId)
         } else {
@@ -166,15 +159,8 @@ class CHODashboardActivity : AppCompatActivity() {
                 Toast.makeText(this, "Can't open patient queue.", Toast.LENGTH_SHORT).show()
             }
         }
-        cardRedirect.setOnClickListener {
-            if (cfg.canRedirect) {
-                Toast.makeText(this, "Redirection clicked", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Redirect not available for this role", Toast.LENGTH_SHORT).show()
-            }
-        }
 
-        // cardPast click (safe start)
+        // Past Consultations card (now in grid)
         cardPast.setOnClickListener {
             Log.i(TAG, "cardPast clicked — attempting to open PastConsultationsActivity")
             try {

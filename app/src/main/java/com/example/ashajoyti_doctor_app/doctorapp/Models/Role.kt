@@ -14,7 +14,7 @@ enum class Role {
         fun fromName(name: String?): Role {
             if (name.isNullOrBlank()) return CHO
             return when (name.trim().uppercase()) {
-                "MO", "MEDICAL_OFFICER", "MEDICAL OFFICER", "MEDICALOFFICER" -> MO
+                "MO", "MEDICAL_OFFICER", "MEDICAL OFFICER", "MEDICALOFFICER" ,"PHC"-> MO
                 "CIVIL", "CIVIL_HOSPITAL", "CIVIL HOSPITAL", "CD", "CIVILHOSPITAL" -> CIVIL
                 "EMERGENCY", "EMERGENCY_DOCTOR", "EMERGENCY DOCTOR", "EMERGENCYDOCTOR" -> EMERGENCY
                 else -> CHO
