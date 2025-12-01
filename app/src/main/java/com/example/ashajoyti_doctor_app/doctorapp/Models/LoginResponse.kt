@@ -9,6 +9,7 @@ data class LoginResponse(
 data class DoctorModel(
     val doc_id: Int,
     val doc_name: String,
+    val doc_role: String,
     val doc_phone: Long,
     val doc_speciality: String?,
     val doc_status: String,
