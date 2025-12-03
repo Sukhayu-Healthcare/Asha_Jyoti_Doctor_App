@@ -6,17 +6,17 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="6dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
     android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="16dp">
 
-        <!-- Top row: index + avatar + name + severity -->
+        <!-- Top row: index + avatar + name + severity (severity hidden by default) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,22 +58,24 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="मोहन गुप्ता"
+                        android:text="Mohan Gupta"
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="#222"/>
 
+                    <!-- severity badge: keep it available but hidden by default -->
                     <TextView
                         android:id="@+id/tvSeverity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="YELLOW"
+                        android:text=""
                         android:textSize="12sp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:background="@drawable/badge_yellow"
                         android:textColor="#6B4F00"
-                        android:layout_marginStart="8dp"/>
+                        android:layout_marginStart="8dp"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <TextView
@@ -116,7 +118,7 @@
             android:textColor="#6B7280"
             android:layout_marginTop="6dp" />
 
-        <!-- Buttons row -->
+        <!-- Buttons row: improved styling so text always visible -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -135,8 +137,10 @@
                 android:insetLeft="12dp"
                 android:insetRight="12dp"
                 android:layout_marginEnd="8dp"
-                app:backgroundTint="#070014"
-                android:textColor="#FFFFFF" />
+                app:cornerRadius="10dp"
+                app:backgroundTint="#0B4470"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnTagEmergency"
@@ -148,8 +152,10 @@
                 android:textAllCaps="false"
                 android:insetLeft="12dp"
                 android:insetRight="12dp"
+                app:cornerRadius="10dp"
                 app:backgroundTint="#D81B47"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>

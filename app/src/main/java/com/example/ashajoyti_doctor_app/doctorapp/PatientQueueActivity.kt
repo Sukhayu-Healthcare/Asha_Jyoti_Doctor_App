@@ -21,44 +21,49 @@ class PatientQueueActivity : AppCompatActivity(), PatientQueueAdapter.OnPatientA
         // find recycler view
         rvPatientQueue = findViewById(R.id.rvPatientQueue)
 
-        // setup list
+        // setup list (dummy data)
         rvPatientQueue.layoutManager = LinearLayoutManager(this)
         rvPatientQueue.adapter = PatientQueueAdapter(makeSamplePatients(), this)
-
-        // REMOVE THIS → no back arrow needed
-        // val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarPatientQueue)
-        // toolbar?.setNavigationOnClickListener { finish() }
     }
 
     private fun makeSamplePatients(): List<Patient> {
+        // Dummy data in English as requested
         return listOf(
             Patient(
-                1, "मोहन गुप्ता", "YELLOW",
-                "Patient ID: P003",
-                "Age: 55, Gender: male",
-                "Symptoms: cold, cough, sore throat",
-                "15 minutes"
+                index = 1,
+                name = "Mohan Gupta",
+                severity = "", // hidden by default
+                patientId = "Patient ID: P003",
+                ageGender = "Age: 55, Gender: male",
+                symptoms = "Symptoms: cold, cough, sore throat",
+                estWait = "15 minutes"
             ),
             Patient(
-                2, "प्रिया शर्मा", "YELLOW",
-                "Patient ID: P004",
-                "Age: 28, Gender: female",
-                "Symptoms: headache, fever, fatigue",
-                "30 minutes"
+                index = 2,
+                name = "Priya Sharma",
+                severity = "",
+                patientId = "Patient ID: P004",
+                ageGender = "Age: 28, Gender: female",
+                symptoms = "Symptoms: headache, fever, fatigue",
+                estWait = "30 minutes"
             ),
             Patient(
-                3, "सीता देवी", "YELLOW",
-                "Patient ID: P002",
-                "Age: 32, Gender: female",
-                "Symptoms: mild fever, runny nose",
-                "45 minutes"
+                index = 3,
+                name = "Sita Devi",
+                severity = "",
+                patientId = "Patient ID: P002",
+                ageGender = "Age: 32, Gender: female",
+                symptoms = "Symptoms: mild fever, runny nose",
+                estWait = "45 minutes"
             ),
             Patient(
-                4, "अनिल वर्मा", "YELLOW",
-                "Patient ID: P007",
-                "Age: 40, Gender: male",
-                "Symptoms: minor headache, mild fatigue",
-                "60 minutes"
+                index = 4,
+                name = "Anil Verma",
+                severity = "",
+                patientId = "Patient ID: P007",
+                ageGender = "Age: 40, Gender: male",
+                symptoms = "Symptoms: minor headache, mild fatigue",
+                estWait = "60 minutes"
             )
         )
     }
@@ -73,22 +78,20 @@ class PatientQueueActivity : AppCompatActivity(), PatientQueueAdapter.OnPatientA
         Log.i(TAG, "Emergency tagged for ${patient.patientId}")
     }
 
-    // inside your Activity implementing PatientQueueAdapter.OnPatientActionListener
-override fun onViewDetails(patient: Patient) {
-    val intent = PatientDetailsActivity.createIntent(
-        context = this,
-        name = patient.name,
-        patientId = patient.patientId,
-        age = patient.ageGender.split(',').getOrNull(0)?.trim() ?: "—", // quick parse if needed
-        gender = patient.ageGender.split(',').getOrNull(1)?.trim() ?: "—",
-        symptoms = patient.symptoms,
-        visit = "2025-11-30 14:00",
-        wait = patient.estWait,
-        vitals = "BP: —  HR: —", // pass real vitals if you have them
-        feedbackRating = 4.0,
-        feedbackText = "Sample feedback"
-    )
-    startActivity(intent)
-}
-
+    override fun onViewDetails(patient: Patient) {
+        val intent = PatientDetailsActivity.createIntent(
+            context = this,
+            name = patient.name,
+            patientId = patient.patientId,
+            age = patient.ageGender.split(',').getOrNull(0)?.trim() ?: "—",
+            gender = patient.ageGender.split(',').getOrNull(1)?.trim() ?: "—",
+            symptoms = patient.symptoms,
+            visit = "2025-11-30 14:00",
+            wait = patient.estWait,
+            vitals = "BP: —  HR: —",
+            feedbackRating = 4.0,
+            feedbackText = "Sample feedback"
+        )
+        startActivity(intent)
+    }
 }

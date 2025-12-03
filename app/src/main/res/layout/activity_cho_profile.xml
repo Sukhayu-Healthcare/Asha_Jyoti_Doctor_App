@@ -83,15 +83,6 @@
                             android:textStyle="bold"
                             android:textColor="#0B2B3A" />
 
-                        <TextView
-                            android:id="@+id/tvProfileSubtitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Chief Health Officer — CHO"
-                            android:textSize="13sp"
-                            android:layout_marginTop="6dp"
-                            android:textColor="#576778" />
-
                         <!-- small stats row -->
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -111,7 +102,6 @@
                                 android:id="@+id/etDoctorId"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="CHO001"
                                 android:textColor="#0B2B3A"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -149,7 +139,6 @@
                             android:textSize="13sp"
                             android:textStyle="bold" />
 
-                        <!-- read-only field styled plain (still a TextInputEditText for kotlin compatibility) -->
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFullName"
                             android:layout_width="0dp"
@@ -253,122 +242,21 @@
                 <!-- spacing -->
                 <Space android:layout_width="match_parent" android:layout_height="12dp" />
 
-                <!-- Buttons row (Edit left, Logout right) -->
+                <!-- Buttons row (now only Logout) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:weightSum="2">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnEditProfile"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="48dp"
-                        android:text="Edit Profile" />
-
-                    <Space android:layout_width="12dp" android:layout_height="wrap_content" />
+                    android:weightSum="1">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnLogout"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:text="Logout"
                         android:backgroundTint="@color/design_default_color_error"
                         android:textColor="@android:color/white" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Capabilities Card (kept below for clarity) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/capabilitiesCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:padding="14dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvCapabilitiesTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Doctor Capabilities"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:id="@+id/tvCapabilitiesIntro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="As a Chief Health Officer, you can:"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="8dp" />
-
-                <!-- bullet list -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/cap1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Handle Yellow severity cases (primary care)"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/cap2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Escalate to Medical Officer for Orange cases"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/cap3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Escalate to Emergency Doctor for Red cases"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/cap4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Access patient medical history"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/cap5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Record vitals and examination findings"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/cap6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Issue digital prescriptions"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/cap7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• View nearby pharmacy inventory"
-                        android:layout_marginBottom="6dp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

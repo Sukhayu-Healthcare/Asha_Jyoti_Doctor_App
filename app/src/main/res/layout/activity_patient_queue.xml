@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/surface_background">
 
-    <!-- TOP TOOLBAR (no automatic nav arrow) -->
+    <!-- TOP TOOLBAR -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- STAT CARDS -->
+            <!-- STAT CARDS (keep as-is) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,6 +43,7 @@
                 android:gravity="center"
                 android:layout_marginTop="10dp">
 
+                <!-- ... (same stat cards as before) ... -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="85dp"
@@ -212,50 +213,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:nestedScrollingEnabled="false"/>
-
-            <!-- FOOTER -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Your Queue Scope"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="#111"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="As a Chief Health Officer, you handle:"
-                        android:textColor="#444"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="YELLOW — Primary Care Cases"
-                        android:textColor="#AA8800"
-                        android:textSize="13sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

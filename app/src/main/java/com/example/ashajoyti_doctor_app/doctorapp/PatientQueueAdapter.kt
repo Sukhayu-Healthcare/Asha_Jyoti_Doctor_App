@@ -50,7 +50,15 @@ class PatientQueueAdapter(
         val p = items[position]
         holder.tvIndex.text = "#%02d".format(p.index)
         holder.tvName.text = p.name
-        holder.tvSeverity.text = p.severity
+
+        // severity handling: hide if empty or null
+        if (p.severity.isNullOrBlank()) {
+            holder.tvSeverity.visibility = View.GONE
+        } else {
+            holder.tvSeverity.visibility = View.VISIBLE
+            holder.tvSeverity.text = p.severity
+        }
+
         holder.tvPatientId.text = p.patientId
         holder.tvMeta.text = p.ageGender
         holder.tvSymptoms.text = p.symptoms

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Required for network access -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@drawable/asha_jyoti_app_logo"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/asha_jyoti_app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme_ASHA_JYOTI_DOCTOR_APP">
 
-        <!-- Launcher -->
         <activity
             android:name="com.example.ashajoyti_doctor_app.doctorapp.MainActivity"
             android:exported="true">
@@ -22,7 +21,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Other activities -->
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.RoleSelectionActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHOLoginActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHODashboardActivity" android:exported="false" />
@@ -31,7 +29,6 @@
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.EmergencyDoctorActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.ChiefHealthOfficerActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.CHOProfileActivity" android:exported="false" />
-        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.EditProfileActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientQueueActivity" android:exported="false" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PastConsultationsActivity" android:exported="false" android:label="Past Consultations" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientDetailsActivity" android:exported="false" />

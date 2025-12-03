@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:background="#0B4470"
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
     android:paddingStart="12dp"
     android:paddingEnd="12dp">
 
-    <ImageView
-        android:id="@+id/appLogoSmall"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="app logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="0dp"
+        app:title=""
+        app:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp">
 
-    <TextView
-        android:id="@+id/appTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="ASHA JYOTI Doctor"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:ellipsize="end"
-        android:singleLine="true"
-        app:layout_constraintStart_toEndOf="@id/appLogoSmall"
-        app:layout_constraintTop_toTopOf="@id/appLogoSmall"
-        app:layout_constraintBottom_toBottomOf="@id/appLogoSmall"
-        app:layout_constraintEnd_toStartOf="@id/headerRoleShort"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="8dp" />
+        <!-- Small Logo -->
+        <ImageView
+            android:id="@+id/appLogoSmall"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/asha_jyoti_app_logo"
+            android:layout_gravity="center_vertical|start"
+            android:contentDescription="app logo" />
 
-    <TextView
-        android:id="@+id/headerRoleShort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chief Health Officer"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/appLogoSmall"
-        app:layout_constraintBottom_toBottomOf="@id/appLogoSmall"
-        android:layout_marginEnd="4dp" />
+        <!-- Space -->
+        <View
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- ROLE TEXT (BOLD + BIG + LEFT) -->
+        <TextView
+            android:id="@+id/headerRoleShort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chief Health Officer"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="4dp" />
+
+        <!-- Push everything else to right -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+</com.google.android.material.appbar.AppBarLayout>

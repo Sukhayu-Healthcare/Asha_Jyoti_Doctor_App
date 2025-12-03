@@ -15,15 +15,13 @@ import com.example.ashajoyti_doctor_app.config.RoleConfigFactory
 import com.example.ashajoyti_doctor_app.model.Role
 import com.example.ashajoyti_doctor_app.utils.AuthPref
 import de.hdodenhof.circleimageview.CircleImageView
-
+import java.util.Locale
 
 class CHOProfileActivity : AppCompatActivity() {
 
     private val TAG = "CHOProfileActivity"
     private val PREFS = "app_prefs"
     private val KEY_AVATAR_URI = "cho_avatar_uri"
-    private val KEY_NAME = "cho_name"
-    private val KEY_PHONE = "cho_phone"
 
     private lateinit var ivAvatar: CircleImageView
     private lateinit var btnChangePhoto: ImageButton
@@ -34,12 +32,10 @@ class CHOProfileActivity : AppCompatActivity() {
     private lateinit var etDesignation: TextInputEditText
     private lateinit var etRole: TextInputEditText
 
-    private lateinit var btnEditProfile: MaterialButton
     private lateinit var btnLogout: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         try {
             setContentView(R.layout.activity_cho_profile)
 
@@ -52,25 +48,12 @@ class CHOProfileActivity : AppCompatActivity() {
             etDesignation = findViewById(R.id.etDesignation)
             etRole = findViewById(R.id.etRole)
 
-            btnEditProfile = findViewById(R.id.btnEditProfile)
+            // removed edit profile button (we no longer support edit screen)
             btnLogout = findViewById(R.id.btnLogout)
 
-            // When user taps Edit -> open dedicated EditProfileActivity
-            btnEditProfile.setOnClickListener {
-                try {
-                    val intent = Intent(this, EditProfileActivity::class.java)
-                    startActivity(intent)
-                } catch (t: Throwable) {
-                    Log.e(TAG, "Failed to open EditProfileActivity: ${t.message}", t)
-                    Toast.makeText(this, "Can't open edit screen.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            // Logout: safe behavior (only on explicit logout)
             btnLogout.setOnClickListener {
                 val prefs = getSharedPreferences(PREFS, MODE_PRIVATE)
                 try {
-                    // release persisted avatar permission if present (non-fatal)
                     prefs.getString(KEY_AVATAR_URI, null)?.let { saved ->
                         runCatching {
                             contentResolver.releasePersistableUriPermission(Uri.parse(saved), Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -82,21 +65,18 @@ class CHOProfileActivity : AppCompatActivity() {
                 } catch (t: Throwable) {
                     Log.w(TAG, "Error while attempting to release avatar permission: ${t.message}")
                 } finally {
-                    // remove avatar key only; auth token removed because user chose to logout
                     val editor = prefs.edit()
                     editor.remove(KEY_AVATAR_URI)
-                    editor.remove("user_token") // remove auth token on logout
+                    editor.remove("user_token")
                     editor.apply()
                 }
 
-                // Navigate to role selection and clear back stack
+                AuthPref.clear(this)
                 val intent = Intent(this, RoleSelectionActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
             }
-
-            // Don't set any static texts here; actual values will be loaded in onResume()
         } catch (e: Throwable) {
             Log.e(TAG, "Unexpected error in CHOProfileActivity.onCreate(): ${e.message}", e)
             Toast.makeText(this, "Something went wrong opening profile — returning.", Toast.LENGTH_LONG).show()
@@ -107,40 +87,39 @@ class CHOProfileActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        // Load latest saved values from prefs so changes from EditProfileActivity appear immediately
-        val prefs = getSharedPreferences(PREFS, MODE_PRIVATE)
+        val name = AuthPref.getDoctorName(this) ?: "Dr. (Unknown)"
+        val phone = AuthPref.getDoctorPhone(this) ?: ""
+        val avatarUriStr = AuthPref.getProfilePic(this)
 
-        val name = AuthPref.getDoctorName(this) 
-        val phone = prefs.getString(KEY_PHONE, "+91-9876543213") ?: "+91-9876543213"
-        val avatarUriStr = prefs.getString(KEY_AVATAR_URI, null)
-
-        // Use saved role from AuthPref if available
         val savedRoleStr = AuthPref.getRole(this)
         val role = Role.fromName(savedRoleStr)
         val cfg = RoleConfigFactory.get(role)
 
-        // docId and designation from prefs (fallbacks)
-        val docId = prefs.getString("cho_id", "${role.name}001") ?: "${role.name}001"
-        val designation = prefs.getString("cho_designation", cfg.designationLabel) ?: cfg.designationLabel
+        val savedId = AuthPref.getDoctorId(this)
+        val docId = if (savedId > 0) String.format(Locale.getDefault(), "%s%03d", role.name, savedId) else "${role.name}001"
+        val designation = AuthPref.getDoctorSpeciality(this) ?: cfg.designationLabel
 
         try {
             etFullName.setText(name)
             etPhone.setText(phone)
             etDoctorId.text = docId
-            etDesignation.setText(designation)
+            etDesignation.setText(designation ?: "")
             etRole.setText(cfg.designationLabel)
         } catch (t: Throwable) {
-            Log.w(TAG, "Error setting text fields: ${t.message}")
+            Log.w(TAG, "Error setting profile fields: ${t.message}")
         }
 
-        // set avatar safely (permission might be missing if user cleared it)
-        avatarUriStr?.let {
+        // update the shared header's role text (so header stays accurate)
+        try {
+            val headerRole = findViewById<TextView>(R.id.headerRoleShort)
+            headerRole?.text = cfg.designationLabel
+        } catch (_: Throwable) { /* ignore if include not present */ }
+
+        avatarUriStr?.let { uriStr ->
             runCatching {
-                ivAvatar.setImageURI(Uri.parse(it))
+                ivAvatar.setImageURI(Uri.parse(uriStr))
             }.onFailure {
                 Log.w(TAG, "Unable to set avatar from saved uri: ${it.message}")
-                // if permission missing, remove saved uri (non-critical)
-                prefs.edit().remove(KEY_AVATAR_URI).apply()
             }
         }
     }

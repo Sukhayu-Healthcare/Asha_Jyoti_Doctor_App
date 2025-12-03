@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,11 +19,13 @@ import com.example.ashajoyti_doctor_app.model.Role
 import com.example.ashajoyti_doctor_app.model.ConsultationListResponse
 import com.example.ashajoyti_doctor_app.network.ApiClient
 import com.example.ashajoyti_doctor_app.utils.AuthPref
+import com.example.ashajoyti_doctor_app.utils.TokenManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class CHODashboardActivity : AppCompatActivity() {
 
@@ -36,8 +37,6 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var switchAvailable: SwitchMaterial
     private lateinit var tvAvailableBadge: TextView
 
-    // header/profile/recent views
-    private lateinit var appTitle: TextView
     private lateinit var appLogoSmall: ImageView
     private lateinit var headerRoleShort: TextView
 
@@ -45,7 +44,6 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var tvDesignation: TextView
     private lateinit var tvId: TextView
 
-    // metric views
     private lateinit var tvTodayCount: TextView
     private lateinit var tvQueueCount: TextView
     private lateinit var tvWaitingCount: TextView
@@ -53,7 +51,6 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var icRecentCalendar: ImageView
     private lateinit var tvRecentSubtitle: TextView
 
-    // text labels inside cards
     private lateinit var tvPatientQueueTitle: TextView
     private lateinit var tvQuickTitle: TextView
 
@@ -61,16 +58,15 @@ class CHODashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        // find views
+        // find views (IDs must match those in activity_dashboard.xml)
         cardQuick = findViewById(R.id.cardQuick)
         cardPatient = findViewById(R.id.cardPatientQueue)
         cardPast = findViewById(R.id.cardPastConsultations)
         switchAvailable = findViewById(R.id.switchAvailable)
         tvAvailableBadge = findViewById(R.id.tvAvailableBadge)
 
-        appTitle = findViewById(R.id.appTitle)
         appLogoSmall = findViewById(R.id.appLogoSmall)
-        headerRoleShort = findViewById(R.id.headerRoleShort)
+        headerRoleShort = findViewById(R.id.headerRoleShort) // ensure this id exists in include_header.xml
 
         tvName = findViewById(R.id.tvName)
         tvDesignation = findViewById(R.id.tvDesignation)
@@ -86,21 +82,8 @@ class CHODashboardActivity : AppCompatActivity() {
         tvPatientQueueTitle = findViewById(R.id.tvPatientQueueTitle)
         tvQuickTitle = findViewById(R.id.tvQuickTitle)
 
-        // header text
-        appTitle.text = "ASHA JYOTI Doctor"
-
-        // Determine role from prefs (fallback to CHO)
-        val roleName = AuthPref.getRole(this)
-        val role = Role.fromName(roleName)
-        val cfg = RoleConfigFactory.get(role)
-
-        // apply role-based labels
-        headerRoleShort.text = cfg.designationLabel
-        tvDesignation.text = cfg.designationLabel
-
-        tvPatientQueueTitle.text = cfg.patientQueueLabel
-        tvQuickTitle.text = cfg.quickConsultLabel
-
+        // initial UI from saved prefs
+        applyRoleToUi()
         // load saved doctor info (from login)
         val intentName = intent.getStringExtra("extra_username")
         val savedName = AuthPref.getDoctorName(this)
@@ -108,49 +91,38 @@ class CHODashboardActivity : AppCompatActivity() {
         tvName.text = displayName
 
         // speciality (if backend saved it)
-        val savedSpeciality = AuthPref.getDoctorSpeciality(this)
-        tvDesignation.text = savedSpeciality ?: cfg.designationLabel
+        tvDesignation.text = AuthPref.getDoctorSpeciality(this) ?: tvDesignation.text
 
         // show doctor id if saved
+        val roleName = AuthPref.getRole(this) ?: "CHO"
+        val role = Role.fromName(roleName)
         val savedId = AuthPref.getDoctorId(this)
-
-        // id prefix based on role
         val idPrefix = when (role) {
             Role.CHO -> "CHO"
             Role.MO -> "MO"
             Role.CIVIL -> "CD"
             Role.EMERGENCY -> "ED"
         }
-
-        tvId.text = if (savedId > 0) {
-            String.format(Locale.getDefault(), "%s%03d", idPrefix, savedId)
-        } else {
-            "${idPrefix}001"
-        }
+        tvId.text = if (savedId > 0) String.format(Locale.getDefault(), "%s%03d", idPrefix, savedId) else "${idPrefix}001"
 
         // profile click actions
         val profileCard = findViewById<MaterialCardView>(R.id.profileCard)
         profileCard.setOnClickListener {
-            Log.i(TAG, "profileCard clicked — launching CHOProfileActivity")
             startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
-
         findViewById<TextView>(R.id.tvProfile).setOnClickListener {
-            Log.i(TAG, "tvProfile clicked — launching CHOProfileActivity")
             startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
         appLogoSmall.setOnClickListener {
-            Log.i(TAG, "header avatar clicked — launching CHOProfileActivity")
             startActivity(Intent(this@CHODashboardActivity, CHOProfileActivity::class.java))
         }
 
-        // card clicks: keep general behavior but pass role where useful
+        // card clicks remain unchanged
         cardQuick.setOnClickListener {
-            Toast.makeText(this, "${cfg.quickConsultLabel} clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${tvQuickTitle.text} clicked", Toast.LENGTH_SHORT).show()
         }
         cardPatient.setOnClickListener {
             try {
-                Log.i(TAG, "Opening PatientQueueActivity for role=${role.name}")
                 val intent = Intent(this@CHODashboardActivity, PatientQueueActivity::class.java)
                 intent.putExtra("role", role.name)
                 startActivity(intent)
@@ -160,9 +132,7 @@ class CHODashboardActivity : AppCompatActivity() {
             }
         }
 
-        // Past Consultations card (now in grid)
         cardPast.setOnClickListener {
-            Log.i(TAG, "cardPast clicked — attempting to open PastConsultationsActivity")
             try {
                 startActivity(Intent(this@CHODashboardActivity, PastConsultationsActivity::class.java))
             } catch (t: Throwable) {
@@ -171,29 +141,35 @@ class CHODashboardActivity : AppCompatActivity() {
             }
         }
 
-        // switch logic - using hex fallback colors (no custom R.color required)
+        // switch logic - update badge text/color AND status subtitle
         switchAvailable.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
             if (isChecked) {
                 tvAvailableBadge.text = "Available"
                 tvAvailableBadge.setTextColor(Color.parseColor("#1F9D55")) // green
+                runCatching { findViewById<TextView>(R.id.tvStatusSubtitle).text = "You are available for consultations" }
             } else {
                 tvAvailableBadge.text = "Unavailable"
-                tvAvailableBadge.setTextColor(Color.parseColor("#6B7280")) // gray-ish
+                tvAvailableBadge.setTextColor(Color.parseColor("#6B7280")) // gray
+                runCatching { findViewById<TextView>(R.id.tvStatusSubtitle).text = "You are not available for consultations" }
             }
         }
 
-        // initial badge state
-        if (switchAvailable.isChecked) {
-            tvAvailableBadge.text = "Available"
-            tvAvailableBadge.setTextColor(Color.parseColor("#1F9D55"))
-        } else {
-            tvAvailableBadge.text = "Unavailable"
-            tvAvailableBadge.setTextColor(Color.parseColor("#6B7280"))
-        }
+        // initial badge & subtitle state (safe)
+        try {
+            if (switchAvailable.isChecked) {
+                tvAvailableBadge.text = "Available"
+                tvAvailableBadge.setTextColor(Color.parseColor("#1F9D55"))
+                findViewById<TextView>(R.id.tvStatusSubtitle).text = "You are available for consultations"
+            } else {
+                tvAvailableBadge.text = "Unavailable"
+                tvAvailableBadge.setTextColor(Color.parseColor("#6B7280"))
+                findViewById<TextView>(R.id.tvStatusSubtitle).text = "You are not available for consultations"
+            }
+        } catch (_: Throwable) { /* ignore missing subtitle view */ }
 
         // recent calendar icon tint (safe)
         try {
-            val tint = Color.parseColor("#6B7280")
+            val tint = Color.parseColor("#7D8790")
             icRecentCalendar.imageTintList = ColorStateList.valueOf(tint)
         } catch (t: Throwable) {
             icRecentCalendar.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.darker_gray))
@@ -205,12 +181,35 @@ class CHODashboardActivity : AppCompatActivity() {
 
         // fetch consultations to populate metrics
         loadConsultationMetrics()
+    }
 
-        Log.i(TAG, "CHODashboard initialized for role=${role.name}")
+    override fun onResume() {
+        super.onResume()
+        // Update header (role) every time activity resumes so header stays in sync
+        applyRoleToUi()
+    }
+
+    private fun applyRoleToUi() {
+        val roleName = AuthPref.getRole(this) ?: "CHO"
+        val role = Role.fromName(roleName)
+        val cfg = RoleConfigFactory.get(role)
+        headerRoleShort.text = cfg.designationLabel
+        tvDesignation?.text = cfg.designationLabel
+        tvPatientQueueTitle?.text = cfg.patientQueueLabel
+        tvQuickTitle?.text = cfg.quickConsultLabel
+    }
+
+    private fun redirectToLogin() {
+        TokenManager.clear(this)
+        AuthPref.clear(this)
+        val i = Intent(this, CHOLoginActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
+        finish()
     }
 
     private fun loadConsultationMetrics() {
-        val token = AuthPref.getToken(this)
+        val token = TokenManager.getAuthHeader(this)
         if (token.isNullOrBlank()) {
             Log.w(TAG, "No auth token found — redirecting to login or showing message")
             Toast.makeText(this, "Please login to load dashboard", Toast.LENGTH_SHORT).show()
@@ -220,6 +219,10 @@ class CHODashboardActivity : AppCompatActivity() {
         ApiClient.api.getConsultations(token).enqueue(object : Callback<ConsultationListResponse> {
             override fun onResponse(call: Call<ConsultationListResponse>, response: Response<ConsultationListResponse>) {
                 if (!response.isSuccessful || response.body() == null) {
+                    if (response.code() == 401 || response.code() == 403) {
+                        redirectToLogin()
+                        return
+                    }
                     Log.e(TAG, "Failed to load consultations: code=${response.code()}")
                     Toast.makeText(this@CHODashboardActivity, "Failed to load dashboard metrics", Toast.LENGTH_SHORT).show()
                     return
@@ -227,21 +230,14 @@ class CHODashboardActivity : AppCompatActivity() {
 
                 val body = response.body()!!
                 val list = body.consultations
-
-                // total waiting as returned by backend (if body.total is valid)
                 val totalWaiting = body.total
                 tvWaitingCount.text = totalWaiting.toString()
-
-                // queueCount = number of consultations in returned list
                 tvQueueCount.text = list.size.toString()
 
-                // today's date check (assumes consultation_date starts with yyyy-MM-dd or similar)
                 val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val today = sdf.format(Date())
                 val todayCount = list.count { it.consultation_date.startsWith(today) }
                 tvTodayCount.text = todayCount.toString()
-
-                // subtitle update with sample text
                 tvRecentSubtitle.text = if (todayCount > 0) "You have $todayCount consultations today" else "No consultations today"
             }
 

@@ -1,445 +1,468 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scroll"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F4F6F8"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:background="#F4F6F8">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- AppBarLayout (sticky header) -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp"
+        android:background="#0B4470"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
-        <!-- header include (unchanged) -->
         <include
             android:id="@+id/includeHeader"
             layout="@layout/include_header"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- PROFILE SUMMARY CARD - FULL WIDTH (no side margins) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/profileCard"
-            android:layout_width="0dp"
-            android:layout_height="128dp"
-            app:cardElevation="6dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintTop_toBottomOf="@id/includeHeader"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:foreground="?attr/selectableItemBackground">
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true"
+        android:paddingTop="8dp"   
+        android:paddingBottom="12dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
-                android:gravity="center_vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/headerAvatar"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:src="@android:drawable/sym_def_app_icon"
-                    android:contentDescription="avatar" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Dr. Rohan Patil"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="#111" />
-
-                    <TextView
-                        android:id="@+id/tvDesignation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="General Physician"
-                        android:textSize="13sp"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#6B6F76" />
-
-                    <TextView
-                        android:id="@+id/tvId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="M0001"
-                        android:textSize="12sp"
-                        android:layout_marginTop="6dp"
-                        android:textColor="#9AA0A6" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Profile"
-                    android:textStyle="bold"
-                    android:textColor="#0B4470" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- STATUS CARD - keep card margins (16dp from sides) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/statusCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/profileCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="3dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="14dp"
-                android:gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvStatusTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Status"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:textColor="#0F1720" />
-
-                    <TextView
-                        android:id="@+id/tvStatusSubtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="You are available for consultations"
-                        android:layout_marginTop="6dp"
-                        android:textSize="13sp"
-                        android:textColor="#6B6F76" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvAvailableBadge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:text="Available"
-                    android:background="@drawable/badge_available"
-                    android:textSize="12sp"
-                    android:textColor="#146A42" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchAvailable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:checked="true" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- keep hidden placeholders for metrics (unchanged) -->
-        <TextView
-            android:id="@+id/tvTodayCount"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/statusCard" />
-
-        <TextView
-            android:id="@+id/tvQueueCount"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/statusCard" />
-
-        <TextView
-            android:id="@+id/tvWaitingCount"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/statusCard" />
-
-        <!-- FEATURES ROW: two equal cards with side margins (16dp) so they look like separate cards -->
-        <LinearLayout
-            android:id="@+id/feature_row_one"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/statusCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
-
-            <!-- OPD Queue -->
+            <!-- PROFILE SUMMARY CARD - FULL WIDTH (smaller gap from header) -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardPatientQueue"
+                android:id="@+id/profileCard"
                 android:layout_width="0dp"
-                android:layout_height="156dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp"
+                android:layout_height="128dp"
+                app:cardElevation="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"   
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
                 android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="14dp">
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
+                    android:gravity="center_vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/headerAvatar"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:src="@android:drawable/sym_def_app_icon"
+                        android:contentDescription="avatar" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/icPatientQueue"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_queue"
-                            android:tint="#0B6FB2"
-                            android:contentDescription="OPD Queue" />
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvPatientQueueTitle"
+                            android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:text="OPD Queue"
+                            android:text="Dr. Rohan Patil"
                             android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:textColor="#101112" />
+                            android:textSize="20sp"
+                            android:textColor="#111" />
+
+                        <TextView
+                            android:id="@+id/tvDesignation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="General Physician"
+                            android:textSize="13sp"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#6B6F76" />
+
+                        <TextView
+                            android:id="@+id/tvId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="M0001"
+                            android:textSize="12sp"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#9AA0A6" />
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvPatientQueueDesc"
+                        android:id="@+id/tvProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Manage patient queue and start consultations"
-                        android:textSize="13sp"
-                        android:textColor="#6B6F76" />
-
-                    <TextView
-                        android:id="@+id/tvPatientQueueCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="4 patients waiting"
-                        android:textSize="12.5sp"
-                        android:textColor="#6B6F76" />
+                        android:text="Profile"
+                        android:textStyle="bold"
+                        android:textColor="#0B4470" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Quick Consultation -->
+            <!-- STATUS CARD -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardQuick"
+                android:id="@+id/statusCard"
                 android:layout_width="0dp"
-                android:layout_height="156dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp"
-                android:foreground="?attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="14dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/icQuick"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_phone"
-                            android:tint="#7B4DAF"
-                            android:contentDescription="Quick Consultation" />
-
-                        <TextView
-                            android:id="@+id/tvQuickTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:text="Quick Consultation"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:textColor="#101112" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tvQuickDesc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Start next consultation immediately"
-                        android:textSize="13sp"
-                        android:textColor="#6B6F76" />
-
-                    <TextView
-                        android:id="@+id/tvQuickStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Ready to start"
-                        android:textSize="12.5sp"
-                        android:textColor="#6B6F76" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-        <!-- Past Consultations card: keep margins (16dp) so it looks like a card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardPastConsultations"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/feature_row_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp">
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/profileCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:padding="14dp"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:id="@+id/icPast"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_history"
-                        android:tint="#0E9A8A"
-                        android:contentDescription="Past Consultations" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvStatusTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:textColor="#0F1720" />
+
+                        <TextView
+                            android:id="@+id/tvStatusSubtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="You are available for consultations"
+                            android:layout_marginTop="6dp"
+                            android:textSize="13sp"
+                            android:textColor="#6B6F76" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvPastTitle"
+                        android:id="@+id/tvAvailableBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:text="Available"
+                        android:background="@drawable/badge_available"
+                        android:textSize="12sp"
+                        android:textColor="#146A42" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchAvailable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="Past Consultations"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="#101112" />
+                        android:checked="true" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:id="@+id/tvPastDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="View completed consultations and notes"
-                    android:textSize="13sp"
-                    android:textColor="#6B6F76" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            <!-- hidden metric placeholders -->
+            <TextView
+                android:id="@+id/tvTodayCount"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/statusCard" />
 
-        <!-- RECENT CONSULTATIONS - FULL WIDTH (same edge as profile card) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/recentCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            app:layout_constraintTop_toBottomOf="@id/cardPastConsultations"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:cardElevation="3dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp">
+            <TextView
+                android:id="@+id/tvQueueCount"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/statusCard" />
 
+            <TextView
+                android:id="@+id/tvWaitingCount"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/statusCard" />
+
+            <!-- OPD + Quick row (kept with side margins) -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/feature_row_one"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="18dp">
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/statusCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
 
-                <TextView
-                    android:id="@+id/tvRecentTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recent Consultations"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="#101112" />
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPatientQueue"
+                    android:layout_width="0dp"
+                    android:layout_height="156dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/icPatientQueue"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_queue"
+                                android:tint="#0B6FB2"
+                                android:contentDescription="OPD Queue" />
+
+                            <TextView
+                                android:id="@+id/tvPatientQueueTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="OPD Queue"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:textColor="#101112" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvPatientQueueDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Manage patient queue and start consultations"
+                            android:textSize="13sp"
+                            android:textColor="#6B6F76" />
+
+                        <TextView
+                            android:id="@+id/tvPatientQueueCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="4 patients waiting"
+                            android:textSize="12.5sp"
+                            android:textColor="#6B6F76" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardQuick"
+                    android:layout_width="0dp"
+                    android:layout_height="156dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/icQuick"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_phone"
+                                android:tint="#7B4DAF"
+                                android:contentDescription="Quick Consultation" />
+
+                            <TextView
+                                android:id="@+id/tvQuickTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="Quick Consultation"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:textColor="#101112" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvQuickDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Start next consultation immediately"
+                            android:textSize="13sp"
+                            android:textColor="#6B6F76" />
+
+                        <TextView
+                            android:id="@+id/tvQuickStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Ready to start"
+                            android:textSize="12.5sp"
+                            android:textColor="#6B6F76" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Past Consultations -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPastConsultations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/feature_row_one"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="12dp">
+                    android:padding="14dp">
 
-                    <ImageView
-                        android:id="@+id/ic_recent_calendar"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/ic_calendar"
-                        android:tint="#7D8790" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/icPast"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_history"
+                            android:tint="#0E9A8A"
+                            android:contentDescription="Past Consultations" />
+
+                        <TextView
+                            android:id="@+id/tvPastTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="Past Consultations"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="#101112" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvRecentSubtitle"
+                        android:id="@+id/tvPastDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="No consultations today"
+                        android:layout_marginTop="10dp"
+                        android:text="View completed consultations and notes"
                         android:textSize="13sp"
                         android:textColor="#6B6F76" />
                 </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <!-- RECENT CONSULTATIONS - FULL WIDTH (no side margins) and flexible height -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/recentCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardPastConsultations"
+                android:layout_marginTop="18dp"
+                app:cardElevation="3dp"
+                app:cardCornerRadius="12dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"
+                    android:paddingTop="18dp"
+                    android:paddingBottom="18dp">
+
+                    <TextView
+                        android:id="@+id/tvRecentTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recent Consultations"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#101112" />
+
+                    <!-- This inner area will center the empty-state icon/text but the card itself
+                         spans full width and will grow downward as content increases -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="12dp">
+
+                        <ImageView
+                            android:id="@+id/ic_recent_calendar"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_calendar"
+                            android:tint="#7D8790" />
+
+                        <TextView
+                            android:id="@+id/tvRecentSubtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="No consultations today"
+                            android:textSize="13sp"
+                            android:textColor="#6B6F76" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- bottom spacer -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                app:layout_constraintTop_toBottomOf="@id/recentCard" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
