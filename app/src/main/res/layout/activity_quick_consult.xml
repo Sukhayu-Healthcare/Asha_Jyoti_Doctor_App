@@ -240,6 +240,50 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- NEW: Buttons to open the Vitals / Examination / Prescription pages (fragments are reused) -->
+        <LinearLayout
+            android:id="@+id/openPagesRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnOpenVitals"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="VITALS"
+                android:textAllCaps="true"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/btnOpenExam"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="EXAM"
+                android:textAllCaps="true"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#2196F3"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/btnOpenPrescription"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="PRESC"
+                android:textAllCaps="true"
+                android:backgroundTint="#FF9800"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
         <!-- Consultation panel: use weight so it occupies the remaining space -->
         <androidx.cardview.widget.CardView
             android:id="@+id/consultationPanel"
@@ -252,28 +296,36 @@
             app:cardPreventCornerOverlap="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <!-- Tabs -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
+            <!-- IMPORTANT: LinearLayout so weights inside work -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@android:color/white"
-                android:elevation="0dp"
-                app:tabMode="fixed"
-                app:tabGravity="fill"
-                app:tabIndicatorColor="#4CAF50"
-                app:tabIndicatorHeight="3dp"
-                app:tabSelectedTextColor="#4CAF50"
-                app:tabTextColor="#757575"
-                app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Button"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <!-- ViewPager2 -->
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"/>
+                <!-- Tabs (fixed height) -->
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@android:color/white"
+                    android:elevation="0dp"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="#4CAF50"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabSelectedTextColor="#4CAF50"
+                    app:tabTextColor="#757575"
+                    app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Button"/>
+
+                <!-- ViewPager2 must have weight inside a LinearLayout so it gets space -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"/>
+
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 

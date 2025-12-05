@@ -49,12 +49,25 @@
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientDetailsActivity" android:exported="false" />
 
         <!-- Activities updated to match your Kotlin class names -->
+        <activity android:name=".doctorapp.ConsultationDetailActivity" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.VideoCallActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false" />
-        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.VoiceCallActivity" />
-        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.ChatFallbackActivity" />
-        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.QuickConsultActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.VitalsActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.ExaminationActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PrescriptionActivity" />
+
+        <!-- Added missing activities referenced by the app -->
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.QuickConsultActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.VoiceCallActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.ChatFallbackActivity"
+            android:exported="false" />
+
     </application>
 </manifest>

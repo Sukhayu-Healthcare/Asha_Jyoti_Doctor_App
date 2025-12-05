@@ -9,6 +9,7 @@ import com.example.ashajoyti_doctor_app.R
 
 class PrescriptionFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // uses res/layout/fragment_prescription.xml
         return inflater.inflate(R.layout.fragment_prescription, container, false)
     }
 }

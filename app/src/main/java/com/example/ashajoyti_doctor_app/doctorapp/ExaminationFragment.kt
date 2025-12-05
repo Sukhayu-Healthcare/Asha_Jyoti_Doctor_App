@@ -7,17 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.ashajoyti_doctor_app.R
 
-/**
- * Minimal Examination fragment.
- * Expected layout resource: res/layout/fragment_examination.xml
- */
 class ExaminationFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // uses res/layout/fragment_examination.xml
         return inflater.inflate(R.layout.fragment_examination, container, false)
     }
 }

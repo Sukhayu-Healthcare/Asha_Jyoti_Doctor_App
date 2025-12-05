@@ -153,13 +153,21 @@ class CHODashboardActivity : AppCompatActivity() {
                     intent.putExtra("auth_header", tokenHeader)
                 }
 
+                // Check that QuickConsultActivity is resolvable before starting
+                val resolveInfo = packageManager.resolveActivity(intent, 0)
+                if (resolveInfo == null) {
+                    Log.e(TAG, "QuickConsultActivity not found in manifest for intent=$intent")
+                    Toast.makeText(this@CHODashboardActivity, "QuickConsultActivity not declared in AndroidManifest.xml", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
                 // debug logs (remove in production)
                 Log.d(TAG, "Starting QuickConsultActivity role=$roleNameToSend token-present=${!tokenHeader.isNullOrBlank()}")
 
                 startActivity(intent)
             } catch (t: Throwable) {
                 Log.e(TAG, "Failed to open QuickConsultActivity", t)
-                Toast.makeText(this, "Unable to open quick consult.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CHODashboardActivity, "Unable to open quick consult: ${t.message ?: t::class.java.simpleName}", Toast.LENGTH_LONG).show()
             }
         }
 

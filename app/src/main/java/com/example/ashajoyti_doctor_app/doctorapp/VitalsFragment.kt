@@ -9,7 +9,7 @@ import com.example.ashajoyti_doctor_app.R
 
 class VitalsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // ensure you have res/layout/fragment_vitals.xml
+        // Inflates res/layout/fragment_vitals.xml
         return inflater.inflate(R.layout.fragment_vitals, container, false)
     }
 }

@@ -72,14 +72,92 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Add the rest of consultation content here: vitals, notes, prescription UI -->
-            <TextView
+            <!-- Communication card (if you already have a communication card elsewhere you can remove this) -->
+            <!-- (I included a compact communication card here so tabs show beneath it visually) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCommunication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Consultation details go here..."
-                android:textSize="14sp"
-                android:textColor="#444444"
-                android:padding="8dp" />
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Communication"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#222"/>
+
+                    <!-- Buttons or controls can be here if needed; keep minimal -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp">
+
+                        <Button
+                            android:id="@+id/btnCommVideo"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:text="Video Call" />
+
+                        <Button
+                            android:id="@+id/btnCommVoice"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:text="Voice Call"
+                            android:layout_marginTop="8dp"/>
+
+                        <Button
+                            android:id="@+id/btnCommChat"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:text="Text Chat"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tabs Card: Vitals / Examination / Prescription -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardTabsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayoutVitals"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabMode="fixed"
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@android:color/holo_blue_dark"/>
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPagerVitals"
+                        android:layout_width="match_parent"
+                        android:layout_height="520dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <!-- Spacer -->
             <View
