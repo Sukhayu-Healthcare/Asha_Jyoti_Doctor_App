@@ -12,6 +12,9 @@
     <color name="recent_icon_tint">#6B7280</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+     <color name="red">#FF0000</color>
+    <!-- or a more semantic name -->
+    <color name="call_end_red">#FF3B30</color>
 
     <!-- NEW: surface / card background used by activity_patient_queue -->
     <color name="surface_background">#F4F6FA</color>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardConsultation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Top row: Patient name & status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvPatientName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Patient Name"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#111111" />
+
+            <TextView
+                android:id="@+id/tvConsultStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Waiting"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:paddingStart="8dp" />
+
+        </LinearLayout>
+
+        <!-- Subtitle: brief info -->
+        <TextView
+            android:id="@+id/tvConsultSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BP: 120/80 • HR: 72 bpm • 10:30 AM"
+            android:textSize="14sp"
+            android:textColor="#444444"
+            android:layout_marginTop="6dp" />
+
+        <!-- Optional small meta row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvConsultDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025-12-03"
+                android:textSize="12sp"
+                android:textColor="#999999" />
+
+            <TextView
+                android:id="@+id/tvConsultClinic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  •  OPD Room 2"
+                android:textSize="12sp"
+                android:textColor="#999999" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

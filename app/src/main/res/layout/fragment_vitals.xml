@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Vitals fields -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Blood Pressure (mmHg)" />
+        <EditText android:id="@+id/etBloodPressure" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 120/80" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Heart Rate (bpm)" />
+        <EditText android:id="@+id/etHeartRate" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 78" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Temperature (°F)" />
+        <EditText android:id="@+id/etTemperature" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 98.6" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Weight (kg)" />
+        <EditText android:id="@+id/etWeight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 70" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Height (cm)" />
+        <EditText android:id="@+id/etHeight" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 170" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Oxygen Saturation (%)" />
+        <EditText android:id="@+id/etOxygen" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 98" />
+
+        <Space android:layout_width="match_parent" android:layout_height="16dp" />
+
+        <Button android:id="@+id/btnSaveVitals" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Save Vitals" />
+
+    </LinearLayout>
+</ScrollView>

@@ -80,4 +80,10 @@ dependencies {
 
     // Gson (optional but helpful)
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    
+    // WebRTC for video calling - using the Infobip version which is better maintained
+    implementation("io.getstream:stream-webrtc-android:1.1.1")
 }

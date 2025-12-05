@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ashajoyti_doctor_app">
 
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+   
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
+    <!-- Additions for audio recording -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +24,8 @@
         android:icon="@drawable/asha_jyoti_app_logo"
         android:roundIcon="@drawable/asha_jyoti_app_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme_ASHA_JYOTI_DOCTOR_APP">
+        android:theme="@style/Theme_ASHA_JYOTI_DOCTOR_APP"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name="com.example.ashajoyti_doctor_app.doctorapp.MainActivity"
@@ -33,5 +48,13 @@
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PastConsultationsActivity" android:exported="false" android:label="Past Consultations" />
         <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.PatientDetailsActivity" android:exported="false" />
 
+        <!-- Activities updated to match your Kotlin class names -->
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.VideoCallActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.VoiceCallActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.ChatFallbackActivity" />
+        <activity android:name="com.example.ashajoyti_doctor_app.doctorapp.QuickConsultActivity" />
     </application>
 </manifest>
