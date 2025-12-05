@@ -18,8 +18,11 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medicine name" />
         <EditText android:id="@+id/etMedicineName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Paracetamol" />
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Dosage / frequency" />
-        <EditText android:id="@+id/etDosage" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 1 tab, 8 hourly" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Dosage" />
+        <EditText android:id="@+id/etDosage" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 1 tab" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Frequency" />
+        <EditText android:id="@+id/etFrequency" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Twice a day" />
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Notes" />
         <EditText android:id="@+id/etNotes" android:layout_width="match_parent" android:layout_height="120dp" android:inputType="textMultiLine" android:gravity="top" android:hint="Optional instructions" />
