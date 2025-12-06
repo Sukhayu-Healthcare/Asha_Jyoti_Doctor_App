@@ -87,6 +87,26 @@
                             android:textColor="#888"
                             android:fontFamily="sans-serif"
                             android:layout_marginTop="4dp"/>
+
+                        <!-- NEW: Phone and History (so Kotlin can bind safely) -->
+                        <TextView
+                            android:id="@+id/tvPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phone: --"
+                            android:textSize="13sp"
+                            android:textColor="#666"
+                            android:layout_marginTop="6dp"/>
+
+                        <TextView
+                            android:id="@+id/tvHistory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="History: -"
+                            android:textSize="13sp"
+                            android:textColor="#666"
+                            android:layout_marginTop="4dp"/>
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -240,7 +260,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- NEW: Buttons to open the Vitals / Examination / Prescription pages (fragments are reused) -->
+        <!-- NEW: Buttons to open the Vitals / Examination / Prescription pages -->
         <LinearLayout
             android:id="@+id/openPagesRow"
             android:layout_width="match_parent"
@@ -317,7 +337,7 @@
                     app:tabTextColor="#757575"
                     app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Button"/>
 
-                <!-- ViewPager2 must have weight inside a LinearLayout so it gets space -->
+                <!-- ViewPager2 -->
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"

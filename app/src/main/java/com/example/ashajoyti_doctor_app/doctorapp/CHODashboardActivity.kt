@@ -153,21 +153,13 @@ class CHODashboardActivity : AppCompatActivity() {
                     intent.putExtra("auth_header", tokenHeader)
                 }
 
-                // Check that QuickConsultActivity is resolvable before starting
-                val resolveInfo = packageManager.resolveActivity(intent, 0)
-                if (resolveInfo == null) {
-                    Log.e(TAG, "QuickConsultActivity not found in manifest for intent=$intent")
-                    Toast.makeText(this@CHODashboardActivity, "QuickConsultActivity not declared in AndroidManifest.xml", Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-
                 // debug logs (remove in production)
                 Log.d(TAG, "Starting QuickConsultActivity role=$roleNameToSend token-present=${!tokenHeader.isNullOrBlank()}")
 
                 startActivity(intent)
             } catch (t: Throwable) {
                 Log.e(TAG, "Failed to open QuickConsultActivity", t)
-                Toast.makeText(this@CHODashboardActivity, "Unable to open quick consult: ${t.message ?: t::class.java.simpleName}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CHODashboardActivity, "Unable to open quick consult.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -429,11 +421,29 @@ class CHODashboardActivity : AppCompatActivity() {
                     return@setPositiveButton
                 }
 
+                // --- NEW: open QuickConsultActivity so patient card is visible ---
+                try {
+                    val qcIntent = Intent(this, QuickConsultActivity::class.java).apply {
+                        putExtra("patient_id", patientId)
+                        putExtra("patient_name", "Patient $patientId")
+                        val tokenHeader = TokenManager.getAuthHeader(this@CHODashboardActivity)
+                        if (!tokenHeader.isNullOrBlank()) putExtra("auth_header", tokenHeader)
+                    }
+                    startActivity(qcIntent)
+                } catch (e: Exception) {
+                    Log.w(TAG, "Could not open QuickConsultActivity on incoming call: ${e.message}")
+                }
+
                 // Launch video call activity
-                val intent = Intent(this, VideoCallActivity::class.java)
-                intent.putExtra("patient_id", patientId)
-                intent.putExtra("doctor_id", tvId.text.toString())
-                startActivity(intent)
+                try {
+                    val i = Intent(this, VideoCallActivity::class.java)
+                    i.putExtra("patient_id", patientId)
+                    i.putExtra("doctor_id", tvId.text.toString())
+                    startActivity(i)
+                } catch (ex: Exception) {
+                    Log.e(TAG, "VideoCall launch failed on accept: ${ex.message}", ex)
+                    Toast.makeText(this, "Unable to start video call.", Toast.LENGTH_SHORT).show()
+                }
                 
                 // Accept call through WebSocket
                 webSocketManager?.acceptCall()
