@@ -57,6 +57,16 @@ class QuickPrescriptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_prescription_consult)
 
         bindViews()
+        
+        // Populate patient data from intent if available
+        val patientName = intent.getStringExtra("patient_name") ?: ""
+        val patientId = intent.getStringExtra("patient_id") ?: ""
+        val patientPhone = intent.getStringExtra("patient_phone") ?: ""
+        
+        etPatientName.setText(patientName)
+        etPatientId.setText(patientId)
+        etPatientPhone.setText(patientPhone)
+        
         setupDatePicker()
         setupButtons()
 

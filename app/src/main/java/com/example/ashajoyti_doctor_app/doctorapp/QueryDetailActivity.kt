@@ -36,12 +36,24 @@ class QueryDetailActivity : AppCompatActivity() {
         doneOrNot = intent.getBooleanExtra("done_or_not", false)
 
         // Initialize views
+        val tvPatientName: TextView = findViewById(R.id.tvPatientName)
+        val tvPatientPhone: TextView = findViewById(R.id.tvPatientPhone)
+        val tvPatientDob: TextView = findViewById(R.id.tvPatientDob)
+        val tvPatientGender: TextView = findViewById(R.id.tvPatientGender)
+        val tvPatientZone: TextView = findViewById(R.id.tvPatientZone)
         val tvQueryText: TextView = findViewById(R.id.tvQueryText)
         val tvDisease: TextView = findViewById(R.id.tvDisease)
         val tvQueryStatus: TextView = findViewById(R.id.tvQueryStatus)
         val btnPlayVoice: ImageButton = findViewById(R.id.btnPlayVoiceDetail)
         val btnConsult: MaterialButton = findViewById(R.id.btnConsult)
         val btnBack: Button = findViewById(R.id.btnBackDetail)
+
+        // Set static patient details (hardcoded for display)
+        tvPatientName.text = "Shlok Dubey"
+        tvPatientPhone.text = "9699202706"
+        tvPatientDob.text = "12/12/2005"
+        tvPatientGender.text = "Male"
+        tvPatientZone.text = "Yellow viral fever"
 
         // Set query details
         tvQueryText.text = text
@@ -59,11 +71,14 @@ class QueryDetailActivity : AppCompatActivity() {
             btnPlayVoice.visibility = android.view.View.GONE
         }
 
+        // Dynamic Prescription button
         btnConsult.setOnClickListener {
-            // Navigate to prescription page with patient data
-            val intent = Intent(this, PrescriptionActivity::class.java)
+            // Navigate to QuickPrescriptionActivity (prescription_consult page) with patient data
+            val intent = Intent(this, QuickPrescriptionActivity::class.java)
             intent.putExtra("query_id", queryId)
-            intent.putExtra("patient_id", patientId)
+            intent.putExtra("patient_id", patientId.toString())
+            intent.putExtra("patient_name", "Shlok Dubey")
+            intent.putExtra("patient_phone", "9699202706")
             startActivity(intent)
         }
 

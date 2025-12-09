@@ -22,5 +22,24 @@ data class QueryModel(
     @SerializedName("query_status")
     val query_status: String,
     @SerializedName("done_or_not")
-    val done_or_not: Boolean
+    val done_or_not: Boolean,
+    // Patient details
+    @SerializedName("patient_name")
+    val patient_name: String? = null,
+    @SerializedName("name")
+    val name: String? = null,
+    @SerializedName("patient_phone")
+    val patient_phone: String? = null,
+    @SerializedName("phone")
+    val phone: String? = null,
+    @SerializedName("patient_dob")
+    val patient_dob: String? = null,
+    @SerializedName("dob")
+    val dob: String? = null,
+    @SerializedName("patient_gender")
+    val patient_gender: String? = null,
+    @SerializedName("gender")
+    val gender: String? = null,
+    @SerializedName("zone")
+    val zone: String? = null
 )

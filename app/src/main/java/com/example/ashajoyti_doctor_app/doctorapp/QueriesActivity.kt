@@ -45,70 +45,103 @@ class QueriesActivity : AppCompatActivity(), QueryAdapter.OnQueryActionListener 
 
         btnBack.setOnClickListener { finish() }
 
-        if (docId > 0 && token.isNotEmpty()) {
-            fetchQueries()
+        // Load static sample data
+        loadStaticQueries()
+    }
+
+    private fun loadStaticQueries() {
+        progressBar.visibility = android.view.View.GONE
+        emptyView.visibility = android.view.View.GONE
+
+        // Create static sample queries data
+        val staticQueries = listOf(
+            QueryModel(
+                query_id = 1,
+                patient_id = 2,
+                asha_id = 1,
+                text = "I have been experiencing severe headaches for the past 3 days. The pain is located at the back of my head and is accompanied by dizziness.",
+                voice_url = null,
+                disease = "Yellow viral fever",
+                doc = null,
+                doc_id = 1,
+                query_status = "Pending",
+                done_or_not = false,
+                patient_name = "Shlok Dubey",
+                name = "Shlok Dubey",
+                patient_phone = "9699202706",
+                phone = "9699202706",
+                patient_dob = "12/12/2005",
+                dob = "12/12/2005",
+                patient_gender = "Male",
+                gender = "Male",
+                zone = "Yellow viral fever"
+            ),
+            QueryModel(
+                query_id = 2,
+                patient_id = 3,
+                asha_id = 1,
+                text = "High fever with cough for 5 days. Need medical advice.",
+                voice_url = null,
+                disease = "Influenza",
+                doc = null,
+                doc_id = 1,
+                query_status = "Pending",
+                done_or_not = false,
+                patient_name = "Priya Singh",
+                name = "Priya Singh",
+                patient_phone = "9876543210",
+                phone = "9876543210",
+                patient_dob = "05/15/2000",
+                dob = "05/15/2000",
+                patient_gender = "Female",
+                gender = "Female",
+                zone = "Red zone"
+            ),
+            QueryModel(
+                query_id = 3,
+                patient_id = 4,
+                asha_id = 1,
+                text = "Stomach pain and nausea. Please advise on medication.",
+                voice_url = null,
+                disease = "Gastroenteritis",
+                doc = null,
+                doc_id = 1,
+                query_status = "Pending",
+                done_or_not = false,
+                patient_name = "Rajesh Kumar",
+                name = "Rajesh Kumar",
+                patient_phone = "8899776655",
+                phone = "8899776655",
+                patient_dob = "08/22/1995",
+                dob = "08/22/1995",
+                patient_gender = "Male",
+                gender = "Male",
+                zone = "Green zone"
+            )
+        )
+
+        if (staticQueries.isEmpty()) {
+            emptyView.visibility = android.view.View.VISIBLE
+            emptyView.text = "No queries available"
         } else {
-            Toast.makeText(this, "Doctor information not found", Toast.LENGTH_SHORT).show()
-            finish()
+            emptyView.visibility = android.view.View.GONE
+
+            // Create maps for patient names and phones
+            val patientNameMap = mutableMapOf<Int, String>()
+            val patientPhoneMap = mutableMapOf<Int, String>()
+
+            staticQueries.forEach { query ->
+                patientNameMap[query.patient_id] = query.patient_name ?: "Patient ${query.patient_id}"
+                patientPhoneMap[query.patient_id] = query.patient_phone ?: "N/A"
+            }
+
+            val adapter = QueryAdapter(staticQueries, patientNameMap, patientPhoneMap, this@QueriesActivity)
+            recyclerView.adapter = adapter
         }
     }
 
-    private fun fetchQueries() {
-        progressBar.visibility = android.view.View.VISIBLE
-        emptyView.visibility = android.view.View.GONE
-
-        val apiService = ApiClient.api
-        val call = apiService.getDoctorQueries("Bearer $token", docId)
-
-        call.enqueue(object : Callback<DoctorQueriesResponse> {
-            override fun onResponse(
-                call: Call<DoctorQueriesResponse>,
-                response: Response<DoctorQueriesResponse>
-            ) {
-                progressBar.visibility = android.view.View.GONE
-
-                if (response.isSuccessful && response.body() != null) {
-                    val queries = response.body()!!.query
-
-                    if (queries.isEmpty()) {
-                        emptyView.visibility = android.view.View.VISIBLE
-                        emptyView.text = "No queries assigned yet"
-                    } else {
-                        emptyView.visibility = android.view.View.GONE
-
-                        // Create maps for patient names and phones
-                        // In a real app, you'd fetch patient details separately or from the response
-                        val patientNameMap = mutableMapOf<Int, String>()
-                        val patientPhoneMap = mutableMapOf<Int, String>()
-
-                        // For now, we'll use placeholder data
-                        // You can enhance this by making individual patient detail calls
-                        queries.forEach { query ->
-                            patientNameMap[query.patient_id] = "Patient ${query.patient_id}"
-                            patientPhoneMap[query.patient_id] = "N/A"
-                        }
-
-                        val adapter = QueryAdapter(queries, patientNameMap, patientPhoneMap, this@QueriesActivity)
-                        recyclerView.adapter = adapter
-                    }
-                } else {
-                    Toast.makeText(this@QueriesActivity, "Failed to fetch queries", Toast.LENGTH_SHORT).show()
-                    emptyView.visibility = android.view.View.VISIBLE
-                    emptyView.text = "Failed to load queries"
-                }
-            }
-
-            override fun onFailure(call: Call<DoctorQueriesResponse>, t: Throwable) {
-                progressBar.visibility = android.view.View.GONE
-                Toast.makeText(this@QueriesActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                emptyView.visibility = android.view.View.VISIBLE
-                emptyView.text = "Error loading queries"
-            }
-        })
-    }
-
     override fun onOpenQuery(query: QueryModel) {
-        // Navigate to query detail with modal/pane
+        // Navigate to query detail with all patient and query data
         val intent = Intent(this, QueryDetailActivity::class.java)
         intent.putExtra("query_id", query.query_id)
         intent.putExtra("patient_id", query.patient_id)
@@ -118,6 +151,12 @@ class QueriesActivity : AppCompatActivity(), QueryAdapter.OnQueryActionListener 
         intent.putExtra("doc", query.doc)
         intent.putExtra("query_status", query.query_status)
         intent.putExtra("done_or_not", query.done_or_not)
+        // Pass patient details
+        intent.putExtra("patient_name", query.patient_name ?: query.name ?: "N/A")
+        intent.putExtra("patient_phone", query.patient_phone ?: query.phone ?: "N/A")
+        intent.putExtra("patient_dob", query.patient_dob ?: query.dob ?: "N/A")
+        intent.putExtra("patient_gender", query.patient_gender ?: query.gender ?: "N/A")
+        intent.putExtra("zone", query.zone ?: "N/A")
         startActivity(intent)
     }
 

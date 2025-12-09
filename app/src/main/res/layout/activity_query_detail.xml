@@ -46,6 +46,155 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Patient Details Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Details"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="#172B4D"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Name -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Name :"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#172B4D" />
+
+                        <TextView
+                            android:id="@+id/tvPatientName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="N/A"
+                            android:textSize="13sp"
+                            android:textColor="#555555" />
+                    </LinearLayout>
+
+                    <!-- Phone -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Number :"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#172B4D" />
+
+                        <TextView
+                            android:id="@+id/tvPatientPhone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="N/A"
+                            android:textSize="13sp"
+                            android:textColor="#555555" />
+                    </LinearLayout>
+
+                    <!-- DOB -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="DOB :"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#172B4D" />
+
+                        <TextView
+                            android:id="@+id/tvPatientDob"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="N/A"
+                            android:textSize="13sp"
+                            android:textColor="#555555" />
+                    </LinearLayout>
+
+                    <!-- Gender -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Gender :"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#172B4D" />
+
+                        <TextView
+                            android:id="@+id/tvPatientGender"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="N/A"
+                            android:textSize="13sp"
+                            android:textColor="#555555" />
+                    </LinearLayout>
+
+                    <!-- Zone -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Zone :"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#172B4D" />
+
+                        <TextView
+                            android:id="@+id/tvPatientZone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="N/A"
+                            android:textSize="13sp"
+                            android:textColor="#555555" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Query Text Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
