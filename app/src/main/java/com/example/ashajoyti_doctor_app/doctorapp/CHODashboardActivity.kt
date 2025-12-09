@@ -145,7 +145,7 @@ class CHODashboardActivity : AppCompatActivity() {
                 val intent = Intent(this@CHODashboardActivity, QuickPrescriptionActivity::class.java)
 
                 // pass patient info (if available)
-                intent.putExtra("patient_name", "Mrs. S Sharma")
+                intent.putExtra("patient_name", "")
 
                 // always pass the role so the next activity doesn't need to fight to find it
                 val roleNameToSend = role.name
