@@ -40,8 +40,9 @@ class CHODashboardActivity : AppCompatActivity() {
     private val PERMISSION_REQUEST_CODE = 1001
 
     private lateinit var cardQuick: MaterialCardView
-    private lateinit var cardPatient: MaterialCardView
+    // patient queue card/commented: private lateinit var cardPatient: MaterialCardView
     private lateinit var cardPast: MaterialCardView
+    private lateinit var cardQueries: MaterialCardView
     private lateinit var switchAvailable: SwitchMaterial
     private lateinit var tvAvailableBadge: TextView
 
@@ -56,10 +57,11 @@ class CHODashboardActivity : AppCompatActivity() {
     private lateinit var tvQueueCount: TextView
     private lateinit var tvWaitingCount: TextView
 
-    private lateinit var icRecentCalendar: ImageView
-    private lateinit var tvRecentSubtitle: TextView
+    // private lateinit var icRecentCalendar: ImageView
+    // private lateinit var tvRecentSubtitle: TextView
 
-    private lateinit var tvPatientQueueTitle: TextView
+    // patient queue title was used in layout; commented out to avoid usage:
+    // private lateinit var tvPatientQueueTitle: TextView
     private lateinit var tvQuickTitle: TextView
 
     private var webSocketManager: DoctorWebSocketManager? = null
@@ -71,8 +73,9 @@ class CHODashboardActivity : AppCompatActivity() {
 
         // find views
         cardQuick = findViewById(R.id.cardQuick)
-        cardPatient = findViewById(R.id.cardPatientQueue)
+        // cardPatient = findViewById(R.id.cardPatientQueue) // commented out
         cardPast = findViewById(R.id.cardPastConsultations)
+        cardQueries = findViewById(R.id.cardQueries)
         switchAvailable = findViewById(R.id.switchAvailable)
         tvAvailableBadge = findViewById(R.id.tvAvailableBadge)
 
@@ -87,10 +90,11 @@ class CHODashboardActivity : AppCompatActivity() {
         tvQueueCount = findViewById(R.id.tvQueueCount)
         tvWaitingCount = findViewById(R.id.tvWaitingCount)
 
-        icRecentCalendar = findViewById(R.id.ic_recent_calendar)
-        tvRecentSubtitle = findViewById(R.id.tvRecentSubtitle)
+        // Commented out: Recent consultations section
+        // icRecentCalendar = findViewById(R.id.ic_recent_calendar)
+        // tvRecentSubtitle = findViewById(R.id.tvRecentSubtitle)
 
-        tvPatientQueueTitle = findViewById(R.id.tvPatientQueueTitle)
+        // tvPatientQueueTitle = findViewById(R.id.tvPatientQueueTitle) // commented out
         tvQuickTitle = findViewById(R.id.tvQuickTitle)
 
         // Request permissions first
@@ -138,7 +142,7 @@ class CHODashboardActivity : AppCompatActivity() {
         // card clicks
         cardQuick.setOnClickListener {
             try {
-                val intent = Intent(this@CHODashboardActivity, QuickConsultActivity::class.java)
+                val intent = Intent(this@CHODashboardActivity, QuickPrescriptionActivity::class.java)
 
                 // pass patient info (if available)
                 intent.putExtra("patient_name", "Mrs. S Sharma")
@@ -147,22 +151,24 @@ class CHODashboardActivity : AppCompatActivity() {
                 val roleNameToSend = role.name
                 intent.putExtra("role", roleNameToSend)
 
-                // pass auth token header if QuickConsultActivity needs to call APIs immediately
+                // pass auth token header if QuickPrescriptionActivity needs to call APIs immediately
                 val tokenHeader = TokenManager.getAuthHeader(this@CHODashboardActivity)
                 if (!tokenHeader.isNullOrBlank()) {
                     intent.putExtra("auth_header", tokenHeader)
                 }
 
                 // debug logs (remove in production)
-                Log.d(TAG, "Starting QuickConsultActivity role=$roleNameToSend token-present=${!tokenHeader.isNullOrBlank()}")
+                Log.d(TAG, "Starting QuickPrescriptionActivity role=$roleNameToSend token-present=${!tokenHeader.isNullOrBlank()}")
 
                 startActivity(intent)
             } catch (t: Throwable) {
-                Log.e(TAG, "Failed to open QuickConsultActivity", t)
+                Log.e(TAG, "Failed to open QuickPrescriptionActivity", t)
                 Toast.makeText(this@CHODashboardActivity, "Unable to open quick consult.", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Patient queue click removed/commented to disable queue feature
+        /*
         cardPatient.setOnClickListener {
             try {
                 val intent = Intent(this@CHODashboardActivity, PatientQueueActivity::class.java)
@@ -173,6 +179,7 @@ class CHODashboardActivity : AppCompatActivity() {
                 Toast.makeText(this, "Can't open patient queue.", Toast.LENGTH_SHORT).show()
             }
         }
+        */
 
         cardPast.setOnClickListener {
             try {
@@ -180,6 +187,15 @@ class CHODashboardActivity : AppCompatActivity() {
             } catch (t: Throwable) {
                 Log.e(TAG, "Failed to start PastConsultationsActivity", t)
                 Toast.makeText(this, "Unable to open Past Consultations.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        cardQueries.setOnClickListener {
+            try {
+                startActivity(Intent(this@CHODashboardActivity, QueriesActivity::class.java))
+            } catch (t: Throwable) {
+                Log.e(TAG, "Failed to start QueriesActivity", t)
+                Toast.makeText(this, "Unable to open Queries.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -221,6 +237,8 @@ class CHODashboardActivity : AppCompatActivity() {
             }
         } catch (_: Throwable) {}
 
+        // Commented out: Recent consultations tint and click listener
+        /*
         // tint icon
         try {
             val tint = Color.parseColor("#7D8790")
@@ -233,6 +251,7 @@ class CHODashboardActivity : AppCompatActivity() {
         tvRecentSubtitle.setOnClickListener {
             Toast.makeText(this, "Open recent consultations (todo)", Toast.LENGTH_SHORT).show()
         }
+        */
 
         // fetch metrics
         loadConsultationMetrics()
@@ -258,7 +277,7 @@ class CHODashboardActivity : AppCompatActivity() {
         val cfg = RoleConfigFactory.get(role)
         headerRoleShort.text = cfg.designationLabel
         tvDesignation?.text = cfg.designationLabel
-        tvPatientQueueTitle?.text = cfg.patientQueueLabel
+        // tvPatientQueueTitle?.text = cfg.patientQueueLabel // commented out (queue hidden)
         tvQuickTitle?.text = cfg.quickConsultLabel
     }
 
@@ -308,8 +327,9 @@ class CHODashboardActivity : AppCompatActivity() {
                 val today = sdf.format(Date())
                 val todayCount = list.count { it.consultation_date.startsWith(today) }
                 tvTodayCount.text = todayCount.toString()
-                tvRecentSubtitle.text =
-                    if (todayCount > 0) "You have $todayCount consultations today" else "No consultations today"
+                // Commented out: Recent consultations subtitle update
+                // tvRecentSubtitle.text =
+                //     if (todayCount > 0) "You have $todayCount consultations today" else "No consultations today"
             }
 
             override fun onFailure(call: Call<ConsultationListResponse>, t: Throwable) {
@@ -421,13 +441,13 @@ class CHODashboardActivity : AppCompatActivity() {
                     return@setPositiveButton
                 }
 
-                // --- NEW: open QuickConsultActivity so patient card is visible ---
+                // --- NEW: open QuickPrescriptionActivity so patient card is visible ---
                 try {
-                    val qcIntent = Intent(this, QuickConsultActivity::class.java).apply {
-                        putExtra("patient_id", patientId)
-                        putExtra("patient_name", "Patient $patientId")
-                        val tokenHeader = TokenManager.getAuthHeader(this@CHODashboardActivity)
-                        if (!tokenHeader.isNullOrBlank()) putExtra("auth_header", tokenHeader)
+                    val qcIntent = Intent(this, QuickPrescriptionActivity::class.java).apply {
+                        //putExtra("patient_id", patientId)
+                        //putExtra("patient_name", "Patient $patientId")
+                        //val tokenHeader = TokenManager.getAuthHeader(this@CHODashboardActivity)
+                        //if (!tokenHeader.isNullOrBlank()) putExtra("auth_header", tokenHeader)
                     }
                     startActivity(qcIntent)
                 } catch (e: Exception) {

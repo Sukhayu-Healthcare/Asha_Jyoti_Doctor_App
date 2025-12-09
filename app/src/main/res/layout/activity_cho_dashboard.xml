@@ -62,7 +62,7 @@
                     android:id="@+id/tvTopRole"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chief Health Officer"
+                    android:text="Community Health Officer"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:layout_alignParentEnd="true"
@@ -115,7 +115,7 @@
                         android:id="@+id/tvDesignation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Chief Health Officer"
+                        android:text="Community Health Officer"
                         android:textSize="13sp"
                         android:textColor="#FFFFFF"
                         android:layout_marginTop="2dp"/>
@@ -172,8 +172,8 @@
                     android:id="@+id/tvRoleValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chief Health Officer"
-                    android:textSize="13sp"
+                    android:text="Community Health Officer"
+                    android:textSize="18sp"
                     android:layout_marginTop="4dp"
                     android:textColor="#6B7280" />
             </LinearLayout>

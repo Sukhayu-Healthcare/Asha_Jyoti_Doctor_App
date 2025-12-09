@@ -10,7 +10,8 @@ class CivilHospitalDoctorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple_role)
 
-        findViewById<TextView>(R.id.role_name).text = "Civil Hospital Doctor"
-        findViewById<TextView>(R.id.role_desc).text = "Hospital-based consultations"
+        // COMMENTED OUT: Civil Hospital Doctor
+        // findViewById<TextView>(R.id.role_name).text = "Civil Hospital Doctor"
+        // findViewById<TextView>(R.id.role_desc).text = "Hospital-based consultations"
     }
 }

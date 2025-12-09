@@ -8,17 +8,23 @@ object TokenManager {
 
     /**
      * Return valid Authorization header string or null.
-     * Ensures a single "Bearer " prefix.
+     * Ensures a single "Bearer " prefix and strips surrounding quotes/whitespace.
      */
     fun getAuthHeader(context: Context): String? {
         val raw = AuthPref.getToken(context) ?: return null
-        val trimmed = raw.trim()
-        return if (trimmed.startsWith("Bearer ", ignoreCase = true)) {
+        // strip whitespace and any surrounding double quotes that may have been stored
+        var token = raw.trim()
+        if (token.length >= 2 && token.startsWith("\"") && token.endsWith("\"")) {
+            token = token.substring(1, token.length - 1).trim()
+        }
+        if (token.isEmpty()) return null
+
+        return if (token.startsWith("Bearer ", ignoreCase = true)) {
             Log.d(TAG, "Using stored token (already has Bearer).")
-            trimmed
+            token
         } else {
             Log.d(TAG, "Adding Bearer prefix to stored token.")
-            "Bearer $trimmed"
+            "Bearer $token"
         }
     }
 

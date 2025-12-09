@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.ashajoyti_doctor_app.R
 import com.example.ashajoyti_doctor_app.model.CreateConsultationRequest
-import com.example.ashajoyti_doctor_app.model.PrescriptionItem
+// import com.example.ashajoyti_doctor_app.model.PrescriptionItem   // commented to avoid unresolved reference
 import com.example.ashajoyti_doctor_app.model.ConsultationCreateResponse
 import com.example.ashajoyti_doctor_app.network.ApiClient
 import com.example.ashajoyti_doctor_app.utils.AuthPref
@@ -63,7 +63,8 @@ class PatientDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private val prescriptionListForSubmission: MutableList<PrescriptionItem> = mutableListOf()
+    // previously there was a prescription list here; commented out to avoid type errors:
+    // private val prescriptionListForSubmission: MutableList<PrescriptionItem> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,11 +140,12 @@ class PatientDetailsActivity : AppCompatActivity() {
             val diagnosisText = etDiagnosis?.text?.toString()?.trim()
             val notesText = etNotes?.text?.toString()?.trim()
 
+            // Build request with non-null strings for diagnosis/notes and NO items to avoid type mismatch.
             val request = CreateConsultationRequest(
                 patient_id = pid,
-                diagnosis = if (diagnosisText.isNullOrEmpty()) null else diagnosisText,
-                notes = if (notesText.isNullOrEmpty()) null else notesText,
-                items = if (prescriptionListForSubmission.isEmpty()) null else prescriptionListForSubmission
+                diagnosis = diagnosisText ?: "",
+                notes = notesText ?: "",
+                items = emptyList()
             )
 
             btnSubmit.isEnabled = false

@@ -1,33 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+    <!-- HEADER with Logo and Title (matching dashboard) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#0B4470"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:gravity="center_vertical">
 
+        <!-- App Logo -->
+        <ImageView
+            android:id="@+id/headerLogo"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/asha_jyoti_app_logo"
+            android:contentDescription="app logo" />
+
+        <!-- Space -->
+        <View
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
+
+        <!-- Prescription Title -->
         <TextView
-            android:id="@+id/tvPagePatientName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Prescription"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginBottom="12dp" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medicine name" />
-        <EditText android:id="@+id/etMedicineName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Paracetamol" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Dosage" />
-        <EditText android:id="@+id/etDosage" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. 1 tab" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Frequency" />
-        <EditText android:id="@+id/etFrequency" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="e.g. Twice a day" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Notes" />
-        <EditText android:id="@+id/etNotes" android:layout_width="match_parent" android:layout_height="120dp" android:inputType="textMultiLine" android:gravity="top" android:hint="Optional instructions" />
-
-        <Space android:layout_width="match_parent" android:layout_height="16dp" />
-        <Button android:id="@+id/btnSavePrescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Save Prescription" />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-</ScrollView>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPagePatientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Patient Details"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginBottom="12dp"
+                android:textColor="#333333" />
+
+            <!-- EDIT MODE: Input fields for new prescriptions -->
+            <LinearLayout
+                android:id="@+id/llEditMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medicine name"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/etMedicineName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="e.g. Paracetamol" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Dosage"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/etDosage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="e.g. 1 tab" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Frequency"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/etFrequency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="e.g. Twice a day" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Notes"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:hint="Optional instructions" />
+            </LinearLayout>
+
+            <!-- VIEW MODE: Static text display for past prescriptions -->
+            <LinearLayout
+                android:id="@+id/llViewMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:background="#E8EEF5"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medicine name"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textColor="#0B4470" />
+                <TextView
+                    android:id="@+id/tvMedicineName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="#333333" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dosage"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textColor="#0B4470" />
+                <TextView
+                    android:id="@+id/tvDosage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="#333333" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textColor="#0B4470" />
+                <TextView
+                    android:id="@+id/tvNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textSize="14sp"
+                    android:textColor="#333333" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Button -->
+    <Button
+        android:id="@+id/btnSavePrescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Prescription"
+        android:layout_margin="16dp"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:backgroundTint="#0B4470" />
+</LinearLayout>

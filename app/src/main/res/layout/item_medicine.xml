@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="12dp"
+    android:padding="6dp"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <TextView android:id="@+id/tvMedicineName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medicine Name" android:textStyle="bold" />
-    <TextView android:id="@+id/tvMedicineDosage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dosage" />
-    <TextView android:id="@+id/tvMedicineFrequency" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Frequency" />
-    <TextView android:id="@+id/tvMedicineDuration" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Duration" />
+    <EditText
+        android:id="@+id/etMedName"
+        android:layout_width="0dp"
+        android:layout_weight="0.55"
+        android:layout_height="wrap_content"
+        android:hint="Medicine name" />
 
+    <EditText
+        android:id="@+id/etDosage"
+        android:layout_width="0dp"
+        android:layout_weight="0.22"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:hint="Dosage" />
+
+    <Spinner
+        android:id="@+id/spFreq"
+        android:layout_width="0dp"
+        android:layout_weight="0.23"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp" />
+
+    <EditText
+        android:id="@+id/etDuration"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:hint="Duration"
+        android:layout_marginStart="6dp" />
+
+    <ImageButton
+        android:id="@+id/btnRemove"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="Remove"
+        android:layout_marginStart="6dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"/>
 </LinearLayout>

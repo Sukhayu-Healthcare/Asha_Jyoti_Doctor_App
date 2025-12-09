@@ -3,8 +3,8 @@ package com.example.ashajoyti_doctor_app.doctorapp
 // If CHOLoginActivity etc are in same package, no import needed. If not, import explicitly:
 import com.example.ashajoyti_doctor_app.doctorapp.CHOLoginActivity
 import com.example.ashajoyti_doctor_app.doctorapp.MedicalOfficerActivity
-import com.example.ashajoyti_doctor_app.doctorapp.CivilHospitalDoctorActivity
-import com.example.ashajoyti_doctor_app.doctorapp.EmergencyDoctorActivity
+// import com.example.ashajoyti_doctor_app.doctorapp.CivilHospitalDoctorActivity
+//import com.example.ashajoyti_doctor_app.doctorapp.EmergencyDoctorActivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,8 +21,8 @@ class RoleSelectionActivity : AppCompatActivity() {
 
         val cardChief = findViewById<MaterialCardView>(R.id.card_chief)
         val cardMedical = findViewById<MaterialCardView>(R.id.card_medical)
-        val cardCivil = findViewById<MaterialCardView>(R.id.card_civil)
-        val cardEmergency = findViewById<MaterialCardView>(R.id.card_emergency)
+        // val cardCivil = findViewById<MaterialCardView>(R.id.card_civil)
+        // val cardEmergency = findViewById<MaterialCardView>(R.id.card_emergency)
         val btnBack = findViewById<Button>(R.id.btn_back)
 
         fun openLoginForRole(role: String) {
@@ -33,8 +33,8 @@ class RoleSelectionActivity : AppCompatActivity() {
 
         cardChief.setOnClickListener { openLoginForRole("CHO") }
         cardMedical.setOnClickListener { openLoginForRole("MO") }
-        cardCivil.setOnClickListener { openLoginForRole("CIVIL") }
-        cardEmergency.setOnClickListener { openLoginForRole("EMERGENCY") }
+        // cardCivil.setOnClickListener { openLoginForRole("CIVIL") }
+        // cardEmergency.setOnClickListener { openLoginForRole("EMERGENCY") }
 
         btnBack.setOnClickListener { finish() }
     }

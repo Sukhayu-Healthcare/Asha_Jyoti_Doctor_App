@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Patient Info Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvQueryPatientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Patient Name"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#172B4D" />
+
+                <TextView
+                    android:id="@+id/tvQueryPatientId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID: 12345"
+                    android:textSize="13sp"
+                    android:textColor="#7A7A7A"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/tvQueryPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: 9876543210"
+                    android:textSize="13sp"
+                    android:textColor="#7A7A7A"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <!-- Play Voice Button -->
+            <ImageButton
+                android:id="@+id/btnPlayVoice"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:contentDescription="Play voice"
+                android:src="@android:drawable/ic_media_play"
+                android:tint="@android:color/holo_blue_dark"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Problem Text Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Problem:"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textColor="#172B4D"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/tvQueryProblem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brief description of the problem..."
+            android:textSize="13sp"
+            android:textColor="#555555"
+            android:layout_marginTop="6dp"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+        <!-- Action Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpenQuery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Query"
+            android:layout_marginTop="12dp"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -11,14 +11,21 @@ import com.example.ashajoyti_doctor_app.R
 data class PastConsultation(
     val name: String,
     val patientId: String,
-    val age: String,
+    val age: String = "N/A",
     val gender: String,
+    val phone: String = "N/A",
     val symptoms: String,
-    val visit: String,         // expected "YYYY-MM-DD HH:MM" or "DD MMM YYYY HH:MM" — adapter will try to split
+    val visit: String,
     val wait: String,
     val vitals: String,
     val feedbackRating: Double,
-    val feedbackText: String
+    val feedbackText: String,
+    val consultationId: String = "",
+    val docId: String = "N/A",
+    val notes: String = "N/A",
+    val medicineName: String = "",
+    val dosage: String = "",
+    val prescriptionNotes: String = ""
 )
 
 /**
@@ -33,17 +40,15 @@ class PastConsultationsAdapter(
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tvName)
+        val tvPatientId: TextView = view.findViewById(R.id.tvPatientId)
+        val tvAge: TextView = view.findViewById(R.id.tvAge)
+        val tvPhone: TextView = view.findViewById(R.id.tvPhone)
         val tvDateBadge: TextView = view.findViewById(R.id.tvDateBadge)
         val tvTimeBadge: TextView = view.findViewById(R.id.tvTimeBadge)
         val tvSummary: TextView = view.findViewById(R.id.tvSummary)
-        val tvViewDetails: TextView = view.findViewById(R.id.tvViewDetails)
 
         init {
-            tvViewDetails.setOnClickListener {
-                val pos = adapterPosition
-                if (pos != RecyclerView.NO_POSITION) onViewDetails(items[pos])
-            }
-            // click whole card too
+            // Click whole card to view details
             view.setOnClickListener {
                 val pos = adapterPosition
                 if (pos != RecyclerView.NO_POSITION) onViewDetails(items[pos])
@@ -59,27 +64,22 @@ class PastConsultationsAdapter(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val p = items[position]
         holder.tvName.text = p.name
+        holder.tvPatientId.text = "ID: ${p.patientId}"
+        holder.tvAge.text = "Age: ${p.age}"
+        holder.tvPhone.text = "Phone: ${p.phone}"
 
-        // Try to split visit into date/time. Be robust to formats.
-        val visit = p.visit ?: ""
-        var dateText = visit
-        var timeText = ""
-        // If visit contains space and looks like "YYYY-MM-DD HH:MM" or "DD MMM YYYY HH:MM"
-        val parts = visit.trim().split(Regex("\\s+"))
-        if (parts.size >= 2) {
-            // last token likely time
-            timeText = parts.last()
-            dateText = parts.subList(0, parts.size - 1).joinToString(" ")
-        }
+        // Display date only (no time)
+        holder.tvDateBadge.text = p.visit  // visit is already date-only format from activity
+        holder.tvTimeBadge.text = ""        // Hide time badge
 
-        holder.tvDateBadge.text = dateText
-        holder.tvTimeBadge.text = timeText
-
-        // summary: symptoms + patientId (matches screenshot)
-        holder.tvSummary.text = "${p.symptoms} · ${p.patientId}"
-
-        // "View Details" is styled in XML (we made it bold); keep as is
-        holder.tvViewDetails.text = "View Details"
+        // summary: show all backend data
+        holder.tvSummary.text = """
+            Consultation ID: ${p.consultationId}
+            Doctor ID: ${p.docId}
+            Gender: ${p.gender}
+            Diagnosis: ${p.symptoms}
+            Notes: ${p.notes}
+        """.trimIndent()
     }
 
     override fun getItemCount(): Int = items.size

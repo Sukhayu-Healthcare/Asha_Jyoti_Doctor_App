@@ -11,7 +11,7 @@ class ChiefHealthOfficerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple_role)
 
-        findViewById<TextView>(R.id.role_name).text = "Chief Health Officer"
+        findViewById<TextView>(R.id.role_name).text = "Community Health Officer"
         findViewById<TextView>(R.id.role_desc).text = "Primary healthcare management"
     }
 }

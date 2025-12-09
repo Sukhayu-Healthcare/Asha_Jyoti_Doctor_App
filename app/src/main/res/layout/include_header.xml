@@ -38,7 +38,7 @@
             android:id="@+id/headerRoleShort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chief Health Officer"
+            android:text="Community Health Officer"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="#FFFFFF"

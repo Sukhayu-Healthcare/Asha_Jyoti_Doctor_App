@@ -60,13 +60,19 @@
 
         <!-- Added missing activities referenced by the app -->
         <activity
-            android:name="com.example.ashajoyti_doctor_app.doctorapp.QuickConsultActivity"
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.QuickPrescriptionActivity"
             android:exported="false" />
         <activity
             android:name="com.example.ashajoyti_doctor_app.doctorapp.VoiceCallActivity"
             android:exported="false" />
         <activity
             android:name="com.example.ashajoyti_doctor_app.doctorapp.ChatFallbackActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.QueriesActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.ashajoyti_doctor_app.doctorapp.QueryDetailActivity"
             android:exported="false" />
 
     </application>

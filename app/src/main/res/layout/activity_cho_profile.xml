@@ -204,7 +204,7 @@
                             android:layout_weight="1"
                             android:enabled="false"
                             android:background="@android:color/transparent"
-                            android:text="Chief Health Officer"
+                            android:text="Community Health Officer"
                             android:textColor="#0B2B3A"
                             android:textSize="15sp" />
                     </LinearLayout>

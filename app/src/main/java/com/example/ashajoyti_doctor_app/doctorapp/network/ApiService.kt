@@ -21,11 +21,19 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body request: CreateConsultationRequest
     ): Call<ConsultationCreateResponse>
+    
 
     // --- NEW: GET patient by id
-    @GET("patient/{id}")
+    @GET("doctor/patient/{id}")
     fun getPatient(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Call<PatientResponse>
+
+    // --- NEW: GET queries assigned to a doctor
+    @GET("doctor/{doc_id}")
+    fun getDoctorQueries(
+        @Header("Authorization") token: String,
+        @Path("doc_id") doc_id: Int
+    ): Call<DoctorQueriesResponse>
 }

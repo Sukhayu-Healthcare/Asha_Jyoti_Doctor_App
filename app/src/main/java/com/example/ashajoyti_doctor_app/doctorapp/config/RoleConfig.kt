@@ -20,9 +20,9 @@ object RoleConfigFactory {
             Role.CHO -> RoleConfig(
                 role = role,
                 dashboardTitle = "CHO Dashboard",
-                designationLabel = "Chief Health Officer",
+                designationLabel = "Community Health Officer",
                 patientQueueLabel = "Patient Queue",
-                quickConsultLabel = "Quick Consultation",
+                quickConsultLabel = "Digital Prescription",
                 showRedirectCard = true,
                 canPrescribe = false,
                 canRedirect = true,
@@ -33,33 +33,46 @@ object RoleConfigFactory {
                 dashboardTitle = "MO Dashboard",
                 designationLabel = "Medical Officer",
                 patientQueueLabel = "OPD Queue",
-                quickConsultLabel = "Quick Consultation",
+                quickConsultLabel = "Digital Prescription",
                 showRedirectCard = false,
                 canPrescribe = true,
                 canRedirect = false,
                 canAdmit = false
             )
-            Role.CIVIL -> RoleConfig(
-                role = role,
-                dashboardTitle = "Civil Hospital",
-                designationLabel = "Civil Hospital Doctor",
-                patientQueueLabel = "Hospital Queue",
-                quickConsultLabel = "Quick Consultation",
-                showRedirectCard = false,
-                canPrescribe = true,
-                canRedirect = false,
-                canAdmit = true
-            )
+            /* COMMENTED OUT: Civil Hospital Doctor
+           // Role.CIVIL -> RoleConfig(
+              //  role = role,
+              //  dashboardTitle = "Civil Hospital",
+              //  designationLabel = "Civil Hospital Doctor",
+              //  patientQueueLabel = "Hospital Queue",
+               // quickConsultLabel = "Quick Consultation",
+              //  showRedirectCard = false,
+               // canPrescribe = true,
+               // canRedirect = false,
+               // canAdmit = true
+           // )
+            */
             Role.EMERGENCY -> RoleConfig(
                 role = role,
                 dashboardTitle = "Emergency Doctor",
                 designationLabel = "Emergency Doctor",
                 patientQueueLabel = "Emergency Queue",
-                quickConsultLabel = "Emergency Triage",
+                quickConsultLabel = "Digital Prescription",
                 showRedirectCard = false,
                 canPrescribe = true,
                 canRedirect = false,
                 canAdmit = true
+            )
+            else -> RoleConfig(
+                role = role,
+                dashboardTitle = "Default Dashboard",
+                designationLabel = "Default Role",
+                patientQueueLabel = "Queue",
+                quickConsultLabel = "Consultation",
+                showRedirectCard = false,
+                canPrescribe = false,
+                canRedirect = false,
+                canAdmit = false
             )
         }
     }
